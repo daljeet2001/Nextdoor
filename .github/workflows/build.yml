@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # -------- Build ws-server ----------
+      - name: Install dependencies (ws-server)
+        working-directory: ./ws-server
+        run: npm install
+
+      - name: Build ws-server
+        working-directory: ./ws-server
+        run: npm run build
+
+      # -------- Build neighborly ----------
+      - name: Install dependencies (neighborly)
+        working-directory: ./neighborly
+        run: npm install
+
+      - name: Build neighborly
+        working-directory: ./neighborly
+        run: npm run build

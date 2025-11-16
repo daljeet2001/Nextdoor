@@ -59,6 +59,7 @@ export default function CreatePostForm({
           lng: location?.lng,
         }),
       });
+      console.log(`res is ${res}`)
 
       if (!res.ok) throw new Error("Failed to create post");
 

@@ -4,7 +4,9 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "node --loader ts-node/esm index.ts"
+    "dev": "node --loader ts-node/esm index.ts",
+    "build":"tsc -b",
+    "start":"node index.js"
   },
   "dependencies": {
     "express": "^5.1.0",
