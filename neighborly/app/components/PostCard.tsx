@@ -1,17 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Globe } from "lucide-react";
 import Chat from "./Chat";
+import Comment from "./Comment";
+import Share from "./Share"
 
 export default function PostCard({ post, onClose }: { post: any; onClose?: (id: string) => void }) {
   const { data: session } = useSession();
   const [likes, setLikes] = useState(post.likesCount || 0);
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(post.likes.length>0);
+  const [liked,setLiked] = useState(post.likes?.length>0 || false)
   const [chatOpen, setChatOpen] = useState(false); 
+  const [CommentOpen,setCommentOpen] = useState(false);
+  const [shareOpen,setShareOpen] = useState(false);
+  const [commentsCount,setCommentsCount] = useState(0)
 
   const toggleLike = async () => {
     try {
+      if(!session?.user.id){
+        alert("please sign in")
+        return
+
+      }
       const res = await fetch("/api/posts/like", {
         method: liked ? "DELETE" : "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,11 +33,32 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
 
       const data = await res.json();
       setLikes(data.likesCount);
-      setLiked(!liked);
+      setLiked(data.likes?.length>0)
     } catch (err) {
       console.error(err);
     }
   };
+
+
+      useEffect(() => {
+  
+          const fetchComments = async () => {
+  
+              const res = await fetch(`/api/posts/comment/${post.id}`)
+  
+              if (!res.ok) {
+                  return
+              }
+  
+              const comments = await res.json();
+              // console.log("Commments are ", comments)
+              setCommentsCount(comments.length)
+             
+          }
+          fetchComments()
+  
+  
+      }, [post])
 
   return (
     <>
@@ -56,29 +88,48 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
 
         {/* Actions */}
         <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 justify-center">
             <button
               onClick={toggleLike}
-              disabled={liked}
               className={`flex items-center gap-1 text-sm font-medium ${
-                liked ? "text-gray-600 cursor-not-allowed" : "text-gray-600 hover:text-[#0D1164]"
+                liked ? "text-gray-600" : "text-gray-600 hover:text-[#0D1164]"
               }`}
             >
               {liked ? (
-                <img src="/like-social-heart.png" className="w-4 h-4" alt="liked" />
+                <img src="/like-social-heart.png" className="w-6 h-6" alt="liked" />
               ) : (
-                <img src="/heart.png" className="w-4 h-4" alt="like" />
+                <img src="/heart.png" className="w-6 h-6" alt="like" />
               )}
               {likes}
             </button>
 
-            {/* Chat button */}
-            <button
+              <button onClick={()=> setCommentOpen(true)} className="flex items-center gap-1 text-gray-600 hover-text-[#0D1164]">
+              <img src="/comment.png" className="w-6 h-6" alt="comment"></img>
+              {commentsCount}
+            </button>
+                 <button
               onClick={() => setChatOpen(true)}
               className="flex items-center gap-1 text-gray-600 hover:text-[#0D1164]"
             >
-              <img src="/paper-plane.png" className="w-4 h-4" alt="chat" />
+              <img src="/paper-plane.png" className="w-6 h-6" alt="chat" />
             </button>
+
+ 
+
+      
+
+          
+          </div>
+
+          <div className="flex items-center justify-center gap-3 " >
+                            {/* Chat button */}
+       
+
+            <button onClick={()=>setShareOpen(true)} className="flex items-center gap-1 text-gray-600 hover:text-[#0D1164]">
+                     <img src="/share.png" className="w-6 h-6" alt="share"/> 
+            </button>
+      
+
           </div>
         </div>
       </article>
@@ -99,6 +150,37 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
           </div>
         </div>
       )}
+
+
+      {shareOpen && 
+       <div className="fixed inset-0 bg-white/40  flex items-center justify-center z-50">
+          <div className="relative bg-white rounded-xl shadow-lg">
+            {/* Close button */}
+            <button
+              onClick={() => setShareOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              ✖
+            </button>
+
+            <Share post = {post} />
+          </div>
+        </div>
+        }
+
+        {CommentOpen && (
+          <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-50 ">
+            <div className="relative bg-white rounded-xl shadow-lg">
+          <button
+              onClick={() => setCommentOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              ✖
+            </button>
+            <Comment postId={post.id} setCommentsCount={setCommentsCount}/>
+            </div>
+          </div>
+        )}
     </>
   );
 }

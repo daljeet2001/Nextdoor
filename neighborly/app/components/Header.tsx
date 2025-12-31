@@ -126,7 +126,7 @@ export default function Header() {
         ) : session ? (
           <>
             <Link href="/chat" className="flex items-center">
-              <img src="/chat-bubble.png" alt="Chat" className="h-6 w-6" />
+              <img src="/chat-bubblrr.png" alt="Chat" className="h-6 w-6" />
             </Link>
             <span className="text-sm sm:text-base truncate max-w-[100px]">
               Hi, {session.user?.name ?? "User"}

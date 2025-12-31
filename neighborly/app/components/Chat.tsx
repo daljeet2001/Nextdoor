@@ -49,7 +49,12 @@ export default function Chat({ userId, userName,optimistic}: { userId: string; u
   }, [session]);
 
   const sendMessage = async () => {
-    if (!input || !session) return;
+    if (!input) return;
+
+    if(!session?.user.id){
+      alert("please sign in");
+      return
+    }
 
     const msg = {
       type: "message",
@@ -68,7 +73,6 @@ export default function Chat({ userId, userName,optimistic}: { userId: string; u
         sender: { id: session.user.id, name: session.user.name ?? "You" },
       },
     ]);
-
     }
 
  

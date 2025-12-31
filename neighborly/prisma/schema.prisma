@@ -16,10 +16,22 @@ model User {
   neighborhoodId String?
   neighborhood   Neighborhood? @relation(fields: [neighborhoodId], references: [id])
   posts          Post[]
+  postLikes PostLike[]
+  commnets Comment[]
   services       Service[]
   messagesSent   Message[]   @relation("sent")
   messagesRecv   Message[]   @relation("recv")
   createdAt      DateTime    @default(now())
+}
+
+model PostLike {
+  id String @id@default(cuid())
+  userId String
+  postId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation( fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId,postId])
 }
 
 model Neighborhood {
@@ -39,8 +51,10 @@ model Post {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   likesCount     Int      @default(0) 
+  likes PostLike[]
   neighborhood   Neighborhood @relation(fields: [neighborhoodId], references: [id])
   neighborhoodId String
+  commnets Comment[]
 
   user           User @relation(fields: [userId], references: [id])
   userId         String
@@ -73,3 +87,12 @@ model Message {
   createdAt  DateTime @default(now())
 }
 
+model Comment {
+  id String @id@default(cuid())
+  content String
+  postId String
+  post  Post @relation(fields:[postId],references:[id],onDelete:Cascade)
+  userId String
+  user  User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  createdAt DateTime @default(now())
+}

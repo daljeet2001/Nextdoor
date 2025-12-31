@@ -12,7 +12,7 @@ import ServiceCard from "../components/ServiceCard";
 
 import { Plus } from "lucide-react";
 
-const NeighborhoodMap = dynamic(() => import("../components/NeighborhoodMap"), { ssr: false });
+// const NeighborhoodMap = dynamic(() => import("../components/NeighborhoodMap"), { ssr: false });
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -62,22 +62,22 @@ export default function HomePage() {
       <div className="md:col-span-2 space-y-4">
         {/* Toggle Buttons */}
         <div className="flex gap-2 mb-4">
-          <button
+          {/* <button
             onClick={() => setView("posts")}
             className={`px-4 py-2 rounded-full font-semibold ${
               view === "posts" ? "bg-[#0D1164] text-white" : "bg-gray-200 text-gray-700"
             }`}
           >
             Posts
-          </button>
-          <button
+          </button> */}
+          {/* <button
             onClick={() => setView("services")}
             className={`px-4 py-2 rounded-full font-semibold ${
               view === "services" ? "bg-[#0D1164] text-white" : "bg-gray-200 text-gray-700"
             }`}
           >
             Services
-          </button>
+          </button> */}
         </div>
 
         {/* Create button */}
@@ -156,17 +156,17 @@ export default function HomePage() {
           <img src="/servicebanner.jpg" alt="local business" className="w-full h-40 object-cover" />
            <div className="p-4"> 
            <h3 className="font-semibold text-lg mb-1">Own a local business?</h3>
-           <p className="text-gray-600 text-sm"> Create a service to connect with neighbors, post updates in the feed, and gain new customers. </p>
+           <p className="text-gray-600 text-sm"> Create a business page to connect with neighbors, post updates in the feed, and gain new customers. </p>
            </div> {/* Footer */} 
-           <div className="flex items-center justify-between border-t p-4 text-[#0D1164] font-semibold"> Create service 
+           <div className="flex items-center justify-between border-t p-4 text-[#0D1164] font-semibold"> Create page 
             <span className="ml-2">➔</span>
             </div> 
         </div>
 
-        <div>
+        {/* <div>
           <h1 className="text-xl font-bold mb-4">Neighborhood Map</h1>
           <NeighborhoodMap />
-        </div>
+        </div> */}
 
         
       </aside>

@@ -4,12 +4,28 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth";
 
 export async function GET(req: Request) {
+  const session = await getServerSession(authOptions)
+
+  if(!session?.user?.id){
+    return NextResponse.json({
+      error:"Unauthorized"
+    },{status:401})
+  }
   const url = new URL(req.url);
   const neighborhoodId = url.searchParams.get('neighborhoodId') ?? undefined;
+
   const posts = await prisma.post.findMany({
     where: neighborhoodId ? { neighborhoodId } : undefined,
     orderBy: { createdAt: 'desc' },
-    include: { user: true },
+    include: { user: true ,
+      likes:{
+      where:{
+        userId:session?.user?.id
+      },
+      select:{
+        id:true
+      }
+    }},
   });
   return NextResponse.json(posts);
 }
@@ -55,5 +71,11 @@ export async function PATCH(req: Request) {
 
   const post = await prisma.post.update({ where: { id: postId }, data: {  } });
   return NextResponse.json(post);
+}
+
+export async function DELETE(req:Request){
+  const posts = await prisma.post.deleteMany({  })
+  return NextResponse.json({message:"Deleted"},{status:200})
+
 }
 
