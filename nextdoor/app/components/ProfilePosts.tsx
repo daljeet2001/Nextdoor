@@ -1,6 +1,6 @@
 "use client"
 
-import PostCard from "../components/PostCard";
+import PostCard from "./PostCard";
 import { useState, useEffect } from "react"
 
 
