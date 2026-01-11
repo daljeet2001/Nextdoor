@@ -21,7 +21,7 @@ export default function HeroSection() {
           Discover your neighborhood
         </h1>
         <p className="text-lg text-gray-200 mb-8">
-          Neighborly makes it easy to find local help, share resources, and 
+          Nextdoor makes it easy to find local help, share resources, and 
           connect with people in your area. Whether you need a helping hand, 
           want to offer your skills, or just stay updated, we’re here to bring 
           the neighborhood closer.

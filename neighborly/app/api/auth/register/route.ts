@@ -45,6 +45,7 @@ export async function POST(req: Request) {
       data: {
         name,
         email,
+        city,
         password: hashed,
         neighborhoodId: neighborhood.id,
       },

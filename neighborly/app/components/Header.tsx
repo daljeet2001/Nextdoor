@@ -74,7 +74,7 @@ export default function Header() {
             "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
         }}
       />
-      <h1 className="text-lg sm:text-2xl font-bold">Neighborly</h1>
+      <h1 className="text-lg sm:text-2xl font-bold">Nextdoor</h1>
     </Link>
 
     {/* Navigation (hide when on login/register) */}
@@ -128,9 +128,9 @@ export default function Header() {
             <Link href="/chat" className="flex items-center">
               <img src="/chat-bubblrr.png" alt="Chat" className="h-6 w-6" />
             </Link>
-            <span className="text-sm sm:text-base truncate max-w-[100px]">
+            <Link className="text-sm sm:text-base truncate max-w-[100px]" href={`/profile/${session?.user.id}`}>
               Hi, {session.user?.name ?? "User"}
-            </span>
+            </Link>
             <button
               onClick={() =>
                 signOut().then(() => {

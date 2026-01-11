@@ -13,7 +13,7 @@ export default function CTASection() {
         href="/auth/register"
         className="px-6 py-3 rounded-full bg-[#0D1164] text-white py-3 font-semibold hover:bg-opacity-90 transition"
       >
-        Join Neighborly
+        Join Nextdoor
       </a>
     </section>
   );

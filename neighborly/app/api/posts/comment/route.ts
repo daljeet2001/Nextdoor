@@ -21,7 +21,9 @@ export  async function POST(req: Request) {
 
         },
         include:{
-            user:{select:{name:true}}
+            user:{select:{name:true}},
+            likes:true,
+            replies:true
         }
 
     })

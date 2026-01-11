@@ -1,22 +1,41 @@
 import { NextResponse } from "next/server";
-import {prisma} from "@/lib/prisma"
+import { prisma } from "@/lib/prisma"
 
 
 
-export  async function GET(req:Request, {params}:{params:{postId:string}}){
+export async function GET(req: Request, { params }: { params: { postId: string } }) {
 
     const postId = params.postId;
 
     const comments = await prisma.comment.findMany({
-        where:{
-            postId
+        where: {
+            postId,
         },
-        include:{
-            user:{select:{name:true}}
+        include: {
+            user: { select: { name: true } },
+            likes: true,
         },
-        orderBy:{createdAt:"desc"}
+        orderBy: { createdAt: "asc" }
+    });
+
+    //Build tree
+
+    const map = new Map<string,any>();
+    const roots:any[] = [];
+
+    comments.forEach((c)=>{
+        map.set(c.id,{...c,replies:[]})
     })
 
-    return NextResponse.json(comments)
+    comments.forEach((c)=>{
+        if(c.parentId){
+            map.get(c.parentId)?.replies.push(map.get(c.id))
+        }
+        else {
+            roots.push(map.get(c.id));
+        }
+    })
+
+    return NextResponse.json(roots)
 
 }

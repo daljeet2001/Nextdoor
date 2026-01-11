@@ -31,8 +31,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions as any);
-  if (!session) return new Response(null, { status: 401 });
+  const session  = await getServerSession(authOptions );
+  if (!session?.user?.id){
+    alert("please sign in")
+    return new Response(null, { status: 401 });
+  } 
 
   const body = await req.json();
   const { postbody, photo, neighborhoodId, lat, lng } = body;

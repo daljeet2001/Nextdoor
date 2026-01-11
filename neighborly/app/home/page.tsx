@@ -27,6 +27,10 @@ export default function HomePage() {
 
   const [view, setView] = useState<"posts" | "services">("posts");
 
+  const handleRemovePosts = (postId:string)=>{
+    setPosts((prev)=>prev.filter(p=>p.id !== postId))
+  }
+
   useEffect(() => {
     if (status === "loading") return;
 
@@ -143,10 +147,12 @@ export default function HomePage() {
         {/* Scrollable content */}
         <div className="h-[800px] overflow-y-auto pr-2 space-y-3  rounded-lg p-3">
           {view === "posts"
-            ? posts.map((post: any) => <PostCard key={post.id} post={post} />)
+            ? posts.map((post: any) => <PostCard key={post.id} post={post} onClose={handleRemovePosts}/>)
             : services.map((service) => (
                 <ServiceCard key={service.id} service={service} />
               ))}
+
+              {posts?.length === 0 && <p>No posts yet</p>}
         </div>
       </div>
 

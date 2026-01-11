@@ -61,7 +61,7 @@ export default function CreatePostForm({
       });
       console.log(`res is ${res}`)
 
-      if (!res.ok) throw new Error("Failed to create post");
+      if (!res.ok) throw new Error("Failed to create post or please sign in");
 
       const post = await res.json();
       if (socket) {
@@ -74,7 +74,7 @@ export default function CreatePostForm({
       if (onCreated) onCreated(post);
     } catch (err) {
       console.error(err);
-      alert("Error creating post");
+      alert(err);
     } finally {
       setLoading(false);
     }
