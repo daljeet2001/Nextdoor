@@ -15,7 +15,20 @@ export async function GET(req: Request) {
   const neighborhoodId = url.searchParams.get('neighborhoodId') ?? undefined;
 
   const posts = await prisma.post.findMany({
-    where: neighborhoodId ? { neighborhoodId } : undefined,
+    where: {
+      ...(neighborhoodId ? { neighborhoodId } : {}),
+      hiddenBy:{
+        none:{userId:session?.user?.id}
+      },
+      user:{
+        mutedBy:{
+          none:{
+            userId:session?.user?.id
+          }
+
+        }
+      }
+    },
     orderBy: { createdAt: 'desc' },
     include: { user: true ,
       likes:{
@@ -25,7 +38,18 @@ export async function GET(req: Request) {
       select:{
         id:true
       }
-    }},
+    },
+    bookmarks:{
+      where:{
+        userId:session?.user?.id
+      }
+    },
+    report:{
+      where:{
+        userId:session?.user?.id
+      }
+    }
+  },
   });
   return NextResponse.json(posts);
 }

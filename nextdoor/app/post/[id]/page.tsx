@@ -30,39 +30,39 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
 
 // app/post/[id]/page.tsx
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+// export async function generateMetadata({
+//   params,
+// }: {
+//   params: Promise<{ id: string }>;
+// }) {
+//   const { id } = await params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/post/${id}`,
-    { cache: "no-store" }
-  );
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_APP_URL}/api/post/${id}`,
+//     { cache: "no-store" }
+//   );
 
-  if (!res.ok) {
-    return {};
-  }
+//   if (!res.ok) {
+//     return {};
+//   }
 
-  const post = await res.json();
+//   const post = await res.json();
 
-  return {
-    title: post.body.slice(0, 60),
-    description: post.body,
-    openGraph: {
-      title: post.body.slice(0, 60),
-      description: post.body,
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/post/${id}`,
-      type: "article",
-      images: [
-        {
-          url: post.photo,
-          width: 1200,
-          height: 630,
-        },
-      ],
-    },
-  };
-}
+//   return {
+//     title: post.body.slice(0, 60),
+//     description: post.body,
+//     openGraph: {
+//       title: post.body.slice(0, 60),
+//       description: post.body,
+//       url: `${process.env.NEXT_PUBLIC_APP_URL}/post/${id}`,
+//       type: "article",
+//       images: [
+//         {
+//           url: post.photo,
+//           width: 1200,
+//           height: 630,
+//         },
+//       ],
+//     },
+//   };
+// }

@@ -48,7 +48,7 @@ console.log("data after migration",data)
 
             <div className=" pt-10 flex flex-col  w-full">
 
-              <div className="text-3xl pt-2">{user?.name}</div>
+              <div className="text-3xl pt-2 font-[620]">{user?.name}</div>
               {user?.bio && user.bio.trim!="" &&
                 <div className="text-sm text-black ">{user?.bio}</div>
                 }

@@ -34,11 +34,15 @@ export default function ProfilePosts({ userId }: { userId: string }) {
     setPosts((prev:any)=>prev.filter((p:any)=>p.id !== postId))
   }
 
+  
+
+  
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
 
             <div className="md:col-span-3 space-y-4">
-  <h3 className="text-3xl" >Posts</h3>
+  <h3 className="text-2xl font-[620]" >Posts</h3>
              {posts?.map((post:any)=><PostCard key={post.id} post={post} onClose={handleRemovePosts}/>)}
 
              {posts?.length ===0 && <p>No posts yet</p> }

@@ -6,13 +6,13 @@ import { authOptions } from "@/lib/auth"
 
 export async function GET(req: Request,{params}:{params:{id:string}}) {
 
-//   const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions)
 
-//   if(!session?.user?.id){
-//     return NextResponse.json({
-//       error:"Unauthorized"
-//     },{status:401})
-//   }
+  if(!session?.user?.id){
+    return NextResponse.json({
+      error:"Unauthorized"
+    },{status:401})
+  }
 const userId = params.id
 
 
@@ -31,7 +31,13 @@ const userId = params.id
       select:{
         id:true
       }
-    }},
+    },
+    bookmarks:{
+      where:{
+        userId:session?.user?.id
+      }
+    }
+  },
   });
   return NextResponse.json(posts);
 }
