@@ -20,7 +20,7 @@ export default function Dashboard({ userId }: { userId: string }) {
 
         <Link  href="/bookmark" className="flex shadow-sm rounded-3xl items-center gap-1 p-4 py-2"><Bookmark size={20}/> Bookmarks</Link>
 
-              <button className="flex shadow-sm rounded-3xl items-center gap-1 p-4 py-2"><CalendarFold size={20}/> Events</button>
+              <Link  href="/events" className="flex shadow-sm rounded-3xl items-center gap-1 p-4 py-2"><CalendarFold size={20}/> Events</Link>
     
 
 </div>

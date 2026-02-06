@@ -19,15 +19,20 @@ model User {
   mutedUsers   MutedUser[] @relation("UserMutes")
   mutedBy     MutedUser[] @relation("MutedBy")
   reportedposts    Report[]
+  reportedevents ReportEvent[]
   backgroundImage String?
   location String?
   neighborhoodId String?
   hidePosts      HiddenPosts[]
+  hideEvents     HiddenEvents[]
   neighborhood   Neighborhood? @relation(fields: [neighborhoodId], references: [id])
   posts          Post[]
   postLikes PostLike[]
   commentLikes CommentLike[]
   comments Comment[]
+  events Event[]
+  going Going[]
+  savedEvents SavedEvents[]
   services       Service[]
   messagesSent   Message[]   @relation("sent")
   messagesRecv   Message[]   @relation("recv")
@@ -44,6 +49,15 @@ model HiddenPosts {
   @@unique([postId,userId])
 }
 
+model HiddenEvents {
+  id String @default(cuid())
+  userId String
+  eventId String
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  event Event @relation(fields:[eventId],references:[id],onDelete:Cascade)
+  @@unique([eventId,userId])
+}
+
 model Report {
   id String @id @default(cuid())
   userId String
@@ -54,6 +68,17 @@ model Report {
   post Post @relation(fields:[postId],references:[id],onDelete:Cascade)
 
   @@unique([postId,userId])
+}
+
+model ReportEvent {
+  id String @id @default(cuid())
+  userId String
+  eventId String
+  reason String?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  event Event @relation(fields:[eventId],references:[id],onDelete:Cascade)
+  @@unique([eventId,userId])
 }
 
 model MutedUser {
@@ -100,6 +125,18 @@ model Bookmarks {
 
 }
 
+model SavedEvents {
+
+  id String  @id @default(cuid()) 
+  userId String
+  eventId String
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  event Event @relation(fields:[eventId],references:[id],onDelete:Cascade)
+
+  @@unique([userId,eventId])
+
+}
+
 model Neighborhood {
   id      String  @id @default(cuid())
   name    String  @unique
@@ -108,6 +145,7 @@ model Neighborhood {
   users   User[]
   posts   Post[]
   services Service[]
+  events Event[]
 }
 
 model Post {
@@ -174,3 +212,37 @@ model Comment {
   createdAt DateTime @default(now())
 }
 
+
+model Event {
+  id String @id @default(cuid())
+  name String
+  coverImage String
+
+  startDateTime DateTime
+  endDateTime DateTime
+
+  location String
+  description String?
+  going Going[]
+  report ReportEvent[]
+  hidenBy HiddenEvents[]
+
+  userId String
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+
+  neighbourhoodId String
+  neighborhood Neighborhood @relation(fields:[neighbourhoodId],references:[id],onDelete:Cascade)
+  savedEvents SavedEvents[]
+
+  createdAt DateTime @default(now())
+}
+
+model Going{
+  id String @id @default(cuid())
+  userId String
+  eventId String
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  event Event @relation(fields:[eventId],references:[id],onDelete:Cascade)
+  @@unique([userId,eventId])
+}

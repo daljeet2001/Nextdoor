@@ -4,7 +4,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
     const { id } = await params;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/post/${id}`)
-    console.log("res is",res)
+    // console.log("res is",res)
 
     if(!res.ok){
         return (

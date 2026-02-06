@@ -39,6 +39,16 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
   const isReported = post?.report?.length !==0
 
 
+useEffect(()=>{
+  function handleClickOutside(e:MouseEvent){
+    if(menuRef.current && !menuRef.current?.contains(e.target as Node)){
+      setMenu(false)
+    }
+  }
+  document.addEventListener("mousedown",handleClickOutside)
+  return ()=>document.removeEventListener("mousedown",handleClickOutside)
+},[])
+
 
   useEffect(()=>{
 
@@ -513,9 +523,6 @@ setEditMenu(false);
 
           </div>
         )
-
-
-
       }
 
       {
