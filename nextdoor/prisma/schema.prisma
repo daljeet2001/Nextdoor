@@ -20,19 +20,23 @@ model User {
   mutedBy     MutedUser[] @relation("MutedBy")
   reportedposts    Report[]
   reportedevents ReportEvent[]
+  reportedlstings ReportLising[]
   backgroundImage String?
   location String?
   neighborhoodId String?
   hidePosts      HiddenPosts[]
   hideEvents     HiddenEvents[]
+  hideListing    HiddenListing[]
   neighborhood   Neighborhood? @relation(fields: [neighborhoodId], references: [id])
   posts          Post[]
+  listings       Listing[]
   postLikes PostLike[]
   commentLikes CommentLike[]
   comments Comment[]
   events Event[]
   going Going[]
   savedEvents SavedEvents[]
+  savedListings SavedListing[]
   services       Service[]
   messagesSent   Message[]   @relation("sent")
   messagesRecv   Message[]   @relation("recv")
@@ -58,6 +62,15 @@ model HiddenEvents {
   @@unique([eventId,userId])
 }
 
+model HiddenListing {
+  id String @id @default(cuid())
+  userId String
+  listingId String
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  listing Listing @relation(fields:[listingId],references:[id],onDelete:Cascade)
+  @@unique([userId,listingId])
+}
+
 model Report {
   id String @id @default(cuid())
   userId String
@@ -79,6 +92,17 @@ model ReportEvent {
   user User @relation(fields:[userId],references:[id],onDelete:Cascade)
   event Event @relation(fields:[eventId],references:[id],onDelete:Cascade)
   @@unique([eventId,userId])
+}
+
+model ReportLising {
+  id String  @id @default(cuid())
+  userId String
+  listingId String
+  reason String
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  listing Listing @relation(fields:[listingId],references:[id],onDelete:Cascade)
+  @@unique([userId,listingId])
 }
 
 model MutedUser {
@@ -146,6 +170,7 @@ model Neighborhood {
   posts   Post[]
   services Service[]
   events Event[]
+  listings Listing[]
 }
 
 model Post {
@@ -166,6 +191,36 @@ model Post {
 
   user           User @relation(fields: [userId], references: [id])
   userId         String
+}
+
+model Listing {
+  id String @id @default(cuid())
+  name String
+  location String
+  category String
+  description String
+  price String
+  image String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  userId String
+  hiddenBy HiddenListing[]
+  report ReportLising[]
+  neighborhoodId String
+  savedBy SavedListing[]
+
+  user User @relation(fields:[userId],references:[id])
+  neighborhood Neighborhood @relation(fields:[neighborhoodId],references:[id])
+}
+
+model SavedListing {
+  id String @id @default(cuid())
+  userId String
+  listingId String
+  user User @relation(fields:[userId],references:[id], onDelete:Cascade)
+  listing Listing @relation(fields:[listingId],references:[id],onDelete:Cascade)
+
+  @@unique([userId,listingId])
 }
 
 

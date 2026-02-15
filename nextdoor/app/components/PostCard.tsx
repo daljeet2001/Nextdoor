@@ -35,7 +35,7 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
 
   console.log("post inside post card", post)
 
-  const isOwner = session?.user?.id === post.user.id
+  const isOwner = session?.user?.id === post?.user?.id
   const isReported = post?.report?.length !==0
 
 
@@ -267,7 +267,7 @@ setEditMenu(false);
         <div className="flex items-center  justify-between">
 
           <div className="flex items-start gap-3">
-            <Link href={`/profile/${post.user.id}`} className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 font-semibold">
+            <Link href={`/profile/${post?.user?.id}`} className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-600 font-semibold">
               {/* {post.user?.name?.[0] ?? "U"} */}
 
               {post.user?.image && post.user.image.trim() != "" ? (<img src={post.user.image} alt="profile_img" className="w-full h-full rounded-full" />) : (<div className="">{post.user?.name?.[0].toUpperCase() ?? "U"}</div>
@@ -279,7 +279,7 @@ setEditMenu(false);
                 {post.user?.name ?? post.user?.email}
               </div>
               <div className="flex items-center text-xs text-gray-500 gap-1">
-                {post.user.city} · {timeAgo(post.createdAt)} ago
+                {post?.user?.city} · {timeAgo(post.createdAt)} ago
               </div>
             </div>
           </div>

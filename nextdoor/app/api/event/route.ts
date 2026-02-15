@@ -41,7 +41,7 @@ export async function GET(req: Request) {
             id: event.id,
             name: event.name,
             address: event.location,
-            description: event.description,
+            description: event?.description || "",
             image: event.coverImage,
             startTime: event.startDateTime.toLocaleTimeString([], {
                 hour: "2-digit",
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
                 startDateTime,
                 endDateTime,
                 location,
-                description,
+                description:description || "",
                 userId: session?.user?.id,
                 neighbourhoodId: session?.user?.neighborhoodId
             }

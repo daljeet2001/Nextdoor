@@ -115,7 +115,7 @@ export default function EditProfile() {
           <div className="relative h-48 ">
 
             <img src={user?.backgroundImage ? user.backgroundImage :
-              "https://i.pinimg.com/1200x/5d/a8/b1/5da8b1e151dea4faea882c9d7cb2242b.jpg"} className="object-cover  w-full h-[200px] rounded-t-3xl" />
+              "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-[200px] rounded-t-3xl" />
 
             <button onClick={() => coverRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
               <IoImage size={24} />
