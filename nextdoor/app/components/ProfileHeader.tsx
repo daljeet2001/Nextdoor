@@ -32,7 +32,7 @@ console.log("data after migration",data)
         <div className="w-full h-[414px] flex flex-col rounded-3xl ">
 
           <img src={user?.backgroundImage ? user.backgroundImage :
-            "https://i.pinimg.com/1200x/5d/a8/b1/5da8b1e151dea4faea882c9d7cb2242b.jpg"} className="object-cover rounded-t-3xl w-full h-[200px]" />
+            "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover rounded-t-3xl w-full h-[200px]" />
 
 
 

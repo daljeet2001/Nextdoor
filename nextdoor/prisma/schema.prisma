@@ -35,6 +35,8 @@ model User {
   comments Comment[]
   events Event[]
   going Going[]
+  groups Group[] @relation("GroupMembers")
+  ownedgroups Group[] @relation("GroupOwner")
   savedEvents SavedEvents[]
   savedListings SavedListing[]
   services       Service[]
@@ -171,6 +173,24 @@ model Neighborhood {
   services Service[]
   events Event[]
   listings Listing[]
+  groups Group[]
+}
+
+
+model Group {
+  id String @id @default (cuid())
+  ownerId String
+  owner User @relation("GroupOwner",fields:[ownerId],references:[id],onDelete:Cascade)
+  neighborhoodId String
+  neighorhood Neighborhood @relation(fields:[neighborhoodId],references:[id])
+
+
+  
+  name String
+  bio String?
+  image String?
+  members User[] @relation("GroupMembers")
+  posts Post[]
 }
 
 model Post {
@@ -188,6 +208,8 @@ model Post {
   neighborhoodId String
   comments Comment[]
   commentsClosed Boolean @default(false)
+  groupId String?
+  group Group? @relation(fields:[groupId],references:[id], onDelete:Cascade)
 
   user           User @relation(fields: [userId], references: [id])
   userId         String

@@ -33,21 +33,21 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
   const [canComment,setCanComment] = useState<boolean>(true)
 
 
-  console.log("post inside post card", post)
+  // console.log("post inside post card", post)
 
   const isOwner = session?.user?.id === post?.user?.id
   const isReported = post?.report?.length !==0
 
 
-useEffect(()=>{
-  function handleClickOutside(e:MouseEvent){
-    if(menuRef.current && !menuRef.current?.contains(e.target as Node)){
-      setMenu(false)
-    }
-  }
-  document.addEventListener("mousedown",handleClickOutside)
-  return ()=>document.removeEventListener("mousedown",handleClickOutside)
-},[])
+// useEffect(()=>{
+//   function handleClickOutside(e:MouseEvent){
+//     if(menuRef.current && !menuRef.current?.contains(e.target as Node)){
+//       setMenu(false)
+//     }
+//   }
+//   document.addEventListener("mousedown",handleClickOutside)
+//   return ()=>document.removeEventListener("mousedown",handleClickOutside)
+// },[])
 
 
   useEffect(()=>{

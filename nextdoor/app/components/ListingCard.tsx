@@ -31,6 +31,7 @@ import { FaCar } from "react-icons/fa";
 import { FaBicycle } from "react-icons/fa";
 import { GiClothes } from "react-icons/gi";
 import { FaRupeeSign } from "react-icons/fa";
+import { GrMapLocation } from "react-icons/gr";
 import Switch from '@mui/material/Switch';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 const CategoryOptions = [
@@ -514,7 +515,7 @@ export default function ListingCard({ listing }: { listing: any }) {
               const address = listing.location.split(" ");
               console.log("address", address)
               return (
-                <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[300px] p-2 flex flex-col items-start cursor-pointer">
+                <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
                   <img src={listing.image} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
                   <div className="text-sm font-semibold mt-1">₹{listing.price}</div>
                   <div className="text-sm font-semibold">{listing.name}</div>
@@ -645,6 +646,8 @@ export default function ListingCard({ listing }: { listing: any }) {
               <div className="text-sm font-normal mt-2">{listing.description} </div>
           }
 
+             <p className="text-sm justify-start flex items-start gap-1 text-[#ABB7CC]">{listing.location}</p>
+
           <div className="text-sm font-normal text-[#ABB7CC] mt-2">{timeAgo(listing.createdAt)}</div>
 
           <button disabled={!isLoggedIn} onClick={() => setChatOpen(true)} className={` ${!isLoggedIn ? "cursor-not-allowed" : "cursor-pointer"} mt-2 w-full border-1  py-4 px-2 flex items-center gap-2 rounded-xl text-sm font-bold`}><TbMessages size={28} />Send {listing?.user?.name} a mesage</button>
@@ -660,8 +663,11 @@ export default function ListingCard({ listing }: { listing: any }) {
             </div>
           </div>
 
-          <div className="px-4 py-2 rounded-3xl bg-[#ABB7CC] mt-4 flex items-center flex items-start"><div><MdLocationOn size={24} /></div>
-            <div>{listing.location}</div></div>
+          {/* <div className="px-4 py-2 rounded-3xl bg-[#ABB7CC] mt-4 flex items-center flex items-start"><div><MdLocationOn size={24} /></div>
+            <div>{listing.location}</div></div> */}
+
+                   
+
 
 
 
@@ -855,14 +861,14 @@ export default function ListingCard({ listing }: { listing: any }) {
             <label className="text-xl font-bold">Pickup location</label>
             <div className="relative" onClick={() => setSearchLocation(!searchLocation)}>
               <FaLocationDot size={20} className="absolute top-[50%] translate-y-[-50%] left-1 flex  items-center text-gray-400" />
-              <input className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] " value={listingLocation} onChange={(e) => setListingLocation(e.target.value)}></input>
+              <input disabled={searchLocation} className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] " value={listingLocation} onChange={(e) => setListingLocation(e.target.value)}></input>
             
             </div>
           
 
 
     {searchLocation &&
-              <div className="fixed inset-0 top-50 z-100 flex items-center justify-center" >
+              <div className="fixed inset-0  z-100 flex items-center justify-center" >
                 <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
                            <div className="flex justify-between w-full">
                                   <h1 className="text-2xl font-bold" >Search location</h1>

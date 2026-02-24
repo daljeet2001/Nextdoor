@@ -219,7 +219,7 @@ useEffect(()=>{
     return (
         <>
 
-            <div className="">
+            <div className="flex flex-col items-start gap-4 ">
                 <div className="flex  justify-between  gap-2 px-4 py-3 ">
 
                     <div className="flex items-center gap-2">
@@ -229,19 +229,23 @@ useEffect(()=>{
                         <h1 className="text-lg font-semibold">Your events</h1>
                     </div>
 
-                    <button onClick={() => setCreateEvent(true)} className="rounded-3xl py-2 px-4 border-none font-semibold text-black bg-[#9BA6B7]">Create an event</button>
+                    {/* <button onClick={() => setCreateEvent(true)} className="rounded-3xl py-2 px-4 border-none font-semibold text-black bg-[#9BA6B7]">Create an event</button> */}
 
 
 
 
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center  gap-2">
                     <button onClick={() => setType("host")} className={`px-4 py-2  ${type === "host" ? "border-b-2 border-black" : ""}  text-black`}>Host</button>
                     <button onClick={() => setType("going")} className={`px-4 py-2  ${type === "going" ? "border-b-2 border-black" : ""}  text-black`}>Going</button>
                     <button onClick={() => setType("saved")} className={`px-4 py-2  ${type === "saved" ? "border-b-2 border-black" : ""}  text-black`}>Saved</button>
                 </div>
-                {type === "host" && <div className="h-[800px] overflow-y-auto pr-2 -space-y-8  rounded-lg p-3 flex flex-wrap gap-4">
+                
+                {type === "host" && 
+                // <div className="h-[800px] overflow-y-auto pr-2 space-y-1  rounded-lg p-3 flex flex-wrap gap-4">
+                            <div className="flex justify-start items-start gap-4 flex-wrap max-h-[800px] overflow-y-auto w-full">
+
 
                     {hostedEvents.length > 0 ?
                         hostedEvents.map((event: any,index) => {
@@ -249,7 +253,9 @@ useEffect(()=>{
                 const isSavedbyOwner = isSaved.length > 0
 
                             return(
-                                   <div  key={index} className="w-[262px] max-h-[362px] flex flex-col gap-2 items-start justify-center p-2 border-1 border-[#ABB7CC] rounded-2xl relative">
+                                  //  <div  key={index} className="w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
+
+                                        <div key={index} className=" relative w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
 
                           <img onClick={()=>router.push(`/event/${event.id}`)} className=" cursor-pointer w-[244px] h-[244px] rounded-2xl object-cover " src={event.image} alt="event_image"/>
                           <div className="bg-white text-black px-3 py-1 rounded-xl absolute bottom-28 left-4 flex flex-col  items-center ">
@@ -282,7 +288,10 @@ useEffect(()=>{
                         <div className="w-full flex items-center justify-center">No host events</div>
                     }
                 </div>}
-                {type === "going" && <div className="h-[800px] overflow-y-auto pr-2 space-y-3  rounded-lg p-3 flex flex-wrap gap-2">
+                {type === "going" &&
+                //  <div className="h-[800px] overflow-y-auto pr-2 space-y-1 rounded-lg p-3 flex flex-wrap gap-4">
+                          <div className="flex justify-start items-start gap-4  flex-wrap max-h-[800px] overflow-y-auto w-full">
+
 
                         {goingEvents.length > 0 ?
                         goingEvents?.map((e: any,index) => {
@@ -318,7 +327,10 @@ useEffect(()=>{
                 const isSavedbyOwner = isSaved?.length > 0
 
                             return(
-                                   <div  key={index} className="w-[262px] max-h-[362px] flex flex-col gap-2 items-start justify-center p-2 border-1 border-[#ABB7CC] rounded-2xl relative">
+                                  //  <div  key={index} className="w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
+                                                                      
+
+                                        <div key={index} className=" relative w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
 
                           <img onClick={()=>router.push(`/event/${formatedEvent.id}`)} className=" cursor-pointer w-[244px] h-[244px] rounded-2xl object-cover " src={formatedEvent.image} alt="event_image"/>
                           <div className="bg-white text-black px-3 py-1 rounded-xl absolute bottom-28 left-4 flex flex-col  items-center ">
@@ -350,7 +362,10 @@ useEffect(()=>{
                         <div className="w-full flex items-center justify-center">No saved events</div>
                     }
                 </div>}
-                {type === "saved" && <div className="h-[800px] overflow-y-auto pr-2 -space-y-8 rounded-lg p-3 flex flex-wrap gap-4">
+                {type === "saved" && 
+                // <div className="h-[800px] overflow-y-auto pr-2 space-y-1 rounded-lg p-3 flex flex-wrap gap-4">
+                          <div className="flex justify-start items-start gap-4 flex-wrap max-h-[800px] overflow-y-auto w-full">
+
 
                        {savedEvents.length > 0 ?
                         savedEvents?.map((e: any,index) => {
@@ -386,7 +401,8 @@ useEffect(()=>{
                 const isSavedbyOwner = isSaved?.length > 0
 
                             return(
-                                   <div  key={index} className="w-[262px] max-h-[362px] flex flex-col gap-2 items-start justify-center p-2 border-1 border-[#ABB7CC] rounded-2xl relative">
+                                  //  <div  key={index} className="w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
+                                        <div key={index} className=" relative w-[262px] h-[362px] flex flex-col gap-2 items-start justify-start p-2 border border-[#ABB7CC] rounded-2xl relative">
 
                           <img onClick={()=>router.push(`/event/${formatedEvent.id}`)} className=" cursor-pointer w-[244px] h-[244px] rounded-2xl object-cover " src={formatedEvent.image} alt="event_image"/>
                           <div className="bg-white text-black px-3 py-1 rounded-xl absolute bottom-28 left-4 flex flex-col  items-center ">
@@ -401,7 +417,7 @@ useEffect(()=>{
                     { !isSavedbyOwner?       <button  onClick={()=> saveEvent(formatedEvent.id)}  className=" cursor-pointer flex items-center justify-center  gap-1 border-none w-full rounded-3xl bg-[#ABB7CC] px-4 py-2"><FaBookmark size={18}/>Save</button>
                          :
                          <button onClick ={()=>toggleDropdownEvent(event.id)} className=" flex items-center justify-center  gap-1 border-none w-full rounded-3xl bg-[#ABB7CC] px-4 py-2">Saved <FaChevronDown size={12} /></button>}
-                                                          {eventsButtonDropdown === event.id && <div className="   w-full flex flex-col gap-2 absolute top-90 p-4  items-start rounded-2xl bg-[#2F2F2F] shadow-xl z-50"> 
+                                                          {eventsButtonDropdown === event.id && <div className="   w-full flex flex-col gap-2 absolute top-90 p-4  items-start rounded-2xl bg-[#2F2F2F] shadow-xl z-999999"> 
             <button className="border-none background-none text-white cursor-pointer" onClick={()=>goingToEvent(event.id)}>
               Going
             </button>

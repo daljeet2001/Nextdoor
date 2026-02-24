@@ -31,7 +31,7 @@ export async function GET(req:Request, {params}:{params:{id:string}}){
 
     if(!listing){
         return NextResponse.json(
-            {message:"Lisitng is required"},
+            {message:"Lisitng not found"},
         {status:404}
     )
     }

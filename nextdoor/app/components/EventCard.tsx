@@ -480,7 +480,7 @@ function convertTo24Time(timeStr: string) {
 
                   <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={eventName} onChange={(e) => setEventName(e.target.value)} placeholder="Event name"></input>
 
-                  <div className="flex justify-between items-center gap-4 w-[60%]">
+                  <div className="flex justify-between items-center  w-full">
                     <h3 className="font-semibold text-lg ">Start</h3>
 
                     {/* default */}
@@ -492,8 +492,8 @@ function convertTo24Time(timeStr: string) {
 
 
                     {/* mui library */}
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+<div className="flex gap-2">
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
 
   <DatePicker
     label="Start Date"
@@ -509,6 +509,9 @@ function convertTo24Time(timeStr: string) {
 
 </LocalizationProvider>
 
+</div>
+
+
 
 
 
@@ -516,7 +519,7 @@ function convertTo24Time(timeStr: string) {
                   </div>
 
 
-                  <div className="flex justify-between items-center gap-4 w-[60%]">
+                  <div className="flex justify-between items-center gap-4 w-full">
                     <h3 className="font-semibold text-lg ">End</h3>
 
                     {/* default */}
@@ -529,8 +532,8 @@ function convertTo24Time(timeStr: string) {
 
                     {/* mui library */}
 
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+<div className="flex gap-2">
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
 
   <DatePicker
     label="End Date"
@@ -546,6 +549,9 @@ function convertTo24Time(timeStr: string) {
 
 </LocalizationProvider>
 
+</div>
+
+
                   </div>
 
                   <div className="relative" onClick={()=>setSearchLocation(true)}>
@@ -554,7 +560,7 @@ function convertTo24Time(timeStr: string) {
 
                   </div>
                      {searchLocation &&
-                                <div className="fixed inset-0 top-50 z-100 flex items-center justify-center" >
+                                <div className="fixed inset-0 top-[-50px] z-100 flex items-center justify-center" >
                                   <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
                                              <div className="flex justify-between w-full">
                                                     <h1 className="text-2xl font-bold" >Search location</h1>
