@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import CreatePostForm from "../../components/CreatePostForm";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { FaLink } from "react-icons/fa6";
 
 
 
@@ -15,12 +16,12 @@ import { useRouter } from "next/navigation";
 
 export default function Group({ params }: { params: { id: string } }) {
 
+  const { data: session, status } = useSession();
   const groupId = params.id;
-
-
-
-
-
+  const [isOwner, setIsOwner] = useState(false);
+  const [isMember, setIsMember] = useState(false);
+  const [invite, setInvite] = useState(false);
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
 
@@ -35,7 +36,13 @@ export default function Group({ params }: { params: { id: string } }) {
         }
         const data = await res.json();
         console.log("group in create group page", data)
-        setGroup(data)
+        setGroup(data);
+        console.log("isMember", Boolean(data?.members.some((m: any) => m.id === session?.user?.id)));
+        console.log("isOwner", data.ownerId === session?.user?.id);
+        setIsOwner(data.ownerId === session?.user?.id)
+        setIsMember(data.members.some((m: any) => m.id === session?.user?.id))
+        setUrl(typeof window != "undefined" ? `${window.location.origin}/group/${data.id}` : "")
+
 
       } catch (e) {
         console.log("Error fetching group", e);
@@ -59,21 +66,26 @@ export default function Group({ params }: { params: { id: string } }) {
       setMyGroups(groups)
 
     }
-    
+
     Fetch();
 
     Fetch2();
 
 
-  }, [groupId])
+  }, [groupId, session])
 
+  const copyUrl = async () => {
+    navigator.clipboard.writeText(url);
+    setInvite(false);
+    alert("Link copied")
 
+  }
 
   const handleRemovePosts = (postId: string) => {
     setPosts((prev) => prev.filter(p => p.id !== postId))
   }
 
-  const { data: session, status } = useSession();
+
   const router = useRouter();
   const [myGroups, setMyGroups] = useState<any[]>([]);
   const [group, setGroup] = useState<any>(null);
@@ -81,7 +93,7 @@ export default function Group({ params }: { params: { id: string } }) {
 
   const [posts, setPosts] = useState<any[]>([]
   );
-  const [open, setOpen] = useState(false);
+  const [open4, setOpen4] = useState(false);
   const neighborhoodId = session?.user?.neighborhoodId;
   const [Joined, setJoined] = useState(true);
 
@@ -97,19 +109,41 @@ export default function Group({ params }: { params: { id: string } }) {
 
           <div className="flex flex-col space-y-2 w-full md:col-span-2">
 
-            <GroupHeader group={group} />
+            <GroupHeader group={group} setInvite={setInvite} />
+            {invite && <div className="fixed inset-0 justify-center items-center bg-white/40  flex z-100">
+              <div className="flex flex-col gap-2 bg-white w-full max-w-2xl rounded-xl p-6">
+
+                <div className="font-bold text-2xl"> Share a invitation link </div>
+                <div className="">Invite anyone to view and join this group. Using this link, people can either join or request to join the group, depending on the group's privacy setting.</div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+
+                    <div className="rounded-full w-6 h-6 bg-[#FAF9F6] flex items-center jutify-center"><FaLink size={24} color={"black"} /></div>
+                    <div className="font-bold">{url}</div>
+
+                  </div>
+                  <button className="px-4 py-2 rounded-full text-white bg-[#0D1164] hover:bg-[#1a1e85]" onClick={copyUrl}>Copy</button>
+
+
+
+                </div>
+
+              </div>
+
+            </div>}
 
 
 
 
-
-            {open && (
+            {open4 && (
               <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-100">
                 <div className="bg-white p-6 rounded-xl w-full max-w-lg shadow">
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Create Post</h2>
+
                     <button
-                      onClick={() => setOpen(false)}
+                      onClick={() => setOpen4(false)}
                       className="text-gray-500 hover:text-gray-700"
                     >
                       ✕
@@ -119,8 +153,10 @@ export default function Group({ params }: { params: { id: string } }) {
                     neighborhoodid={neighborhoodId ?? ""}
                     onCreated={(p) => {
                       setPosts((s: any) => [p, ...s]);
-                      setOpen(false);
+                      setOpen4(false);
                     }}
+                    groupId={params.id}
+
                   />
                 </div>
               </div>
@@ -128,14 +164,17 @@ export default function Group({ params }: { params: { id: string } }) {
 
             <div className="h-[800px] overflow-y-auto space-y-4 pr-2 rounded-lg p-3">
 
-              {Joined && <div className="flex gap-2 items-center border-1 p-2 border-[#ABB7CC] rounded-2xl" onClick={() => setOpen(true)}>
+              {
+                isMember && <div className="flex gap-2 items-center border-1 p-2 border-[#ABB7CC] rounded-2xl" onClick={() => setOpen4(true)}>
 
-                {group?.image && group?.image?.trim() !== "" ? (<img className="w-[40px] h-[40px] rounded-full object-cover" src={group.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[40px] h-[40px] rounded-full ">{group?.name[0] ?? "U"}</div>)}
+                  {session?.user?.image && session?.user?.image?.trim() !== "" ? (<img className="w-[40px] h-[40px] rounded-full object-cover" src={session?.user?.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[40px] h-[40px] rounded-full ">{session?.user?.name ? session?.user?.name[0] : "U"}</div>)}
 
 
-                <input disabled={open} className=" cursor-default w-full px-2 py-4 rounded-xl focus:outline-none  bg-[9BA6B7]" placeholder="Share something with the group ..." />
+                  <input disabled={open4} className=" cursor-default w-full px-2 py-4 rounded-xl focus:outline-none  bg-[9BA6B7]" placeholder="Share something with the group ..." />
 
-              </div>}
+                </div>
+              }
+
 
 
               {group?.posts?.map((post: any) => <PostCard key={post.id} post={post} onClose={handleRemovePosts} />)}
@@ -158,7 +197,7 @@ export default function Group({ params }: { params: { id: string } }) {
                   if (isOwner) {
                     return (
                       <div onClick={() => router.push(`/create_group_form?groupId=${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
-                        <img className="w-8 h-8 rounded-full object-cover" src={group.image} />
+                        {/* <img className="w-8 h-8 rounded-full object-cover" src={group.image} /> */}
 
                         {group?.image && group?.image?.trim() !== "" ? (<img className="w-8 h-8 rounded-full object-cover" src={group.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
                         <div className="flex flex-col items-start justify-start">

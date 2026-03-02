@@ -311,12 +311,13 @@ function convertTo24Time(timeStr: string) {
         <button className="p-2 rounded-full rounded-full bg-white border-none absolute top-6 left-6" onClick={() => router.back()}>
           <IoIosArrowBack size={28} />
         </button>
+     
         <button ref={menuButton} className="p-2 rounded-full rounded-full bg-white border-none absolute top-6 right-6" onClick={() => setMenu(!menu)}>
           <PiDotsThree size={28} />
         </button>
         {menu && <div
           ref={menuRef}
-          className="absolute right-0 top-20 w-72 rounded-2xl bg-[#2F2F2F] shadow-xl border border-neutral-700 overflow-hidden z-50">
+          className="absolute right-4 top-20 w-72 rounded-2xl bg-[#2F2F2F] shadow-xl border border-neutral-700 overflow-hidden z-50">
 
 
 
@@ -387,6 +388,7 @@ function convertTo24Time(timeStr: string) {
           )}
 
         </div>}
+    
 
         {
           deleteMenu && (

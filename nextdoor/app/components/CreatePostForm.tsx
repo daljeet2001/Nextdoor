@@ -8,10 +8,15 @@ import { ImagePlus } from "lucide-react";
 export default function CreatePostForm({
   neighborhoodid,
   onCreated,
+  groupId
 }: {
   neighborhoodid: string;
   onCreated?: (p: any) => void;
+  groupId?:string
 }) {
+
+console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home page"}`,groupId)
+ 
   const { data: session } = useSession();
   const [postbody, setPostBody] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
@@ -57,9 +62,11 @@ export default function CreatePostForm({
           neighborhoodId: neighborhoodid,
           lat: location?.lat,
           lng: location?.lng,
+          groupId: groupId ? groupId : null
         }),
       });
-      console.log(`res is ${res}`)
+
+
 
       if (!res.ok) throw new Error("Failed to create post or please sign in");
 
@@ -138,6 +145,8 @@ export default function CreatePostForm({
               className="w-full resize-none border border-gray-200 rounded-lg p-3 text-sm focus:ring-1 focus:ring-black"
               rows={4}
             />
+
+        
 
        
 

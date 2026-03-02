@@ -1,0 +1,62 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+
+
+
+export async function POST(req: Request, { params }: { params: { id: string } }) {
+
+    try {
+
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.id) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
+        }
+
+
+
+
+        const groupId = params.id;
+
+        if (!groupId) {
+            return NextResponse.json({ message: "ID is required" }, { status: 400 })
+        }
+
+        const { groupName, groupDescription } = await req.json();
+
+        if (!groupName || !groupDescription) {
+            return NextResponse.json({
+                message: "Fields are missing"
+            }, {
+                status: 400
+            })
+        }
+
+        const group = await prisma.group.update({
+            where: {
+                id: groupId,
+                ownerId: session?.user?.id
+            },
+            data: {
+                name: groupName,
+                bio: groupDescription
+            }
+        })
+
+        if (!group) {
+            return NextResponse.json({
+                message: "Not authorized to update this group"
+            }, {
+                status: 403
+            })
+        }
+
+        return NextResponse.json(group, { status: 200 })
+
+    } catch (e) {
+        console.log("Error saving name & description", e);
+        return NextResponse.json({ message: "Something went wrong" }, { status: 500 })
+    }
+
+}

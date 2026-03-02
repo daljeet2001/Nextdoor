@@ -32,6 +32,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { HiHomeModern } from "react-icons/hi2";
+
 const names = [
   'Oliver Hansen',
   'Van Henry',
@@ -49,29 +51,29 @@ const names = [
 
 const Your_groups = [
   {
-    name:"A.V Buy & Sell",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
-    members:"12"
+    name: "A.V Buy & Sell",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
+    members: "12"
   },
-    {
-    name:"A.V Buy & Sell",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
-    members:"12"
+  {
+    name: "A.V Buy & Sell",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
+    members: "12"
   },
-    {
-    name:"A.V Buy & Sell",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
-    members:"12"
+  {
+    name: "A.V Buy & Sell",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
+    members: "12"
   },
-    {
-    name:"A.V Buy & Sell",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
-    members:"12"
+  {
+    name: "A.V Buy & Sell",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
+    members: "12"
   },
-    {
-    name:"A.V Buy & Sell",
-    image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
-    members:"12"
+  {
+    name: "A.V Buy & Sell",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStXDP3eS-JpBGrEnpgXoCnF6C0CQPohrLflA&s",
+    members: "12"
   },
 ]
 
@@ -117,6 +119,19 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { MdTableRestaurant } from "react-icons/md";
+import { BiSolidCarGarage } from "react-icons/bi";
+import { TbGardenCartFilled } from "react-icons/tb";
+import { MdSell } from "react-icons/md";
+import { GiGuitarBassHead } from "react-icons/gi";
+import { TbHomeSearch } from "react-icons/tb";
+import { MdOutlineSportsMotorsports } from "react-icons/md";
+import { IoTicket } from "react-icons/io5";
+import { TbTools } from "react-icons/tb";
+import { TbHorseToy } from "react-icons/tb";
+import { FaTv } from "react-icons/fa";
+import { FaBaby } from "react-icons/fa";
+
 
 
 
@@ -144,13 +159,27 @@ export default function HomePage() {
   const [eventsData, setEventsData] = useState<any[]>([])
   const [yourListings, setYourListings] = useState<any[]>([])
 
+
   const CategoryOptions = [
-    { value: "Appliances", label: "Appliances", icon: <FaTools /> },
+    { value: "Appliances", label: "Appliances", icon: <LuWashingMachine /> },
     { value: "Automotive", label: "Automotive", icon: <FaCar /> },
-    { value: "kids", label: "Baby & Kids", icon: <TbMoodKid /> },
+    { value: "kids", label: "Baby & Kids", icon: <FaBaby /> },
     { value: "Bicycles", label: "Bicycles", icon: <FaBicycle /> },
     { value: "Clothing", label: "Clothing", icon: <GiClothes /> },
-    { value: "Electronics", label: "Electronics", icon: <LuWashingMachine /> },
+    { value: "Electronics", label: "Electronics", icon: <FaTv /> },
+
+    { value: "Furniture", label: "Furniture", icon: <MdTableRestaurant /> },
+    { value: "Garage sales", label: "Garage sales", icon: <BiSolidCarGarage /> },
+    { value: "Garden", label: "Garden", icon: <TbGardenCartFilled /> },
+    { value: "Home decor", label: "Home decor", icon: <HiHomeModern /> },
+    { value: "Home sales", label: "Home sales", icon: <MdSell /> },
+    { value: "Musical instruments", label: "Musical instruments", icon: <GiGuitarBassHead /> },
+    { value: "Property rentals", label: "Property rentals", icon: <TbHomeSearch /> },
+    { value: "Sports & outdoors", label: "Sports and outdoors", icon: <MdOutlineSportsMotorsports /> },
+    { value: "Tickets", label: "Tickets", icon: <IoTicket /> },
+    { value: "Tools", label: "Tools", icon: <TbTools /> },
+    { value: "Toys & games", label: "Toys & games", icon: <TbHorseToy /> },
+
   ];
 
   const [categoryOpen, setcategoryOpen] = useState(false);
@@ -170,7 +199,7 @@ export default function HomePage() {
   const [sellType, setSellType] = useState<Type>("all");
   const [checked, setChecked] = useState(false);
   const [searchLocation, setSearchLocation] = useState(false);
-  const [ locationQuery,setLocationQuery ] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
   const [locationResults, setLocationResults] = useState([])
 
 
@@ -191,11 +220,11 @@ export default function HomePage() {
   //groups
 
   const [Joined, setJoined] = useState(false);
-  const [ createGroup, setCreateGroup ] = useState(false);
-  const [ groupName, setGroupName ] = useState("");
+  const [createGroup, setCreateGroup] = useState(false);
+  const [groupName, setGroupName] = useState("");
   const [nearbyGroups, setNearbyGroups] = useState<any[]>([]);
   const [myGroups, setMyGroups] = useState<any[]>([]);
- 
+
 
 
 
@@ -215,6 +244,39 @@ export default function HomePage() {
       },
     },
   };
+
+  const joinMember = async (groupId: string, isOwner: boolean, isMember: boolean) => {
+
+    try {
+
+
+
+      if (isOwner || isMember) {
+        alert("Invite coming soon");
+        return
+      }
+
+      if (!session?.user?.id) {
+        alert("Failed to join group")
+        return;
+      }
+
+      const res = await fetch(`/api/group/${groupId}/join`, {
+        method: "POST",
+      })
+
+      if (!res.ok) {
+        alert("Failed to join group")
+      }
+
+      alert("Group joined")
+
+    } catch (e) {
+      console.log("Error while joining group", e);
+      alert("Failed to join group");
+    }
+
+  }
 
   function getStyles(name: string, personName: readonly string[], theme: Theme) {
     return {
@@ -273,7 +335,7 @@ export default function HomePage() {
             fetch("/api/group"),
             fetch("/api/group/me")
           ]);
-          const [pData, sData, eData, lData, yData, savedData,groupsData, mygroupData] = await Promise.all([pRes.json(), sRes.json(), eRes.json(), lRes.json(), yRes.json(), savedRes.json(),groupsRes.json(), mygroupRes.json()]);
+          const [pData, sData, eData, lData, yData, savedData, groupsData, mygroupData] = await Promise.all([pRes.json(), sRes.json(), eRes.json(), lRes.json(), yRes.json(), savedRes.json(), groupsRes.json(), mygroupRes.json()]);
           setPosts(pData);
           setServices(sData);
           setEventsData(eData);
@@ -282,7 +344,8 @@ export default function HomePage() {
           setSavedListings(savedData);
           setNearbyGroups(groupsData);
           setMyGroups(mygroupData);
-      
+          console.log("mygroupsData", mygroupData)
+
 
           console.log("event in home page", eData)
         } catch (err) {
@@ -295,39 +358,39 @@ export default function HomePage() {
   }, [status, neighborhoodId, router, refetchEvents, refetchEvents2]);
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    const fetchLocation = async()=>{
+    const fetchLocation = async () => {
 
-        try{
+      try {
 
-          if(locationQuery.length<3){
-            setLocationResults([]);
-            return
-          }
+        if (locationQuery.length < 3) {
+          setLocationResults([]);
+          return
+        }
 
-    const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${locationQuery}&countrycodes=in&format=json&addressdetails=1&limit=5`
-      );
-          const data = await res.json();
-          const formatedData = data.map((item:any)=>item.display_name);
-          setLocationResults(formatedData)
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${locationQuery}&countrycodes=in&format=json&addressdetails=1&limit=5`
+        );
+        const data = await res.json();
+        const formatedData = data.map((item: any) => item.display_name);
+        setLocationResults(formatedData)
 
-      
 
-    }catch(e){
-      console.log("Error fetching location",e)
+
+      } catch (e) {
+        console.log("Error fetching location", e)
+      }
+
     }
 
-    }
-
-    const timer = setTimeout(fetchLocation,500);
-    return ()=>clearTimeout(timer)
+    const timer = setTimeout(fetchLocation, 500);
+    return () => clearTimeout(timer)
 
 
-  
 
-  },[locationQuery])
+
+  }, [locationQuery])
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -384,7 +447,7 @@ export default function HomePage() {
   async function postEvent() {
     try {
       setEventLoading(true);
-      console.log("startdateenddare",startDate,endDate)
+      console.log("startdateenddare", startDate, endDate)
 
       const res = await fetch("/api/event", {
         method: "POST",
@@ -402,7 +465,7 @@ export default function HomePage() {
           endTime
         })
       })
-    
+
 
       if (!res.ok) {
         alert("Failed to create event");
@@ -423,35 +486,35 @@ export default function HomePage() {
   }
 
 
-  const createGroupFn = async()=>{
+  const createGroupFn = async () => {
 
-    try{
-    const res = await fetch("/api/group",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-     name:groupName
-    })
-   })
+    try {
+      const res = await fetch("/api/group", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: groupName
+        })
+      })
 
-   if(!res.ok){
-    alert("Failed to create group")
-    return
-   }
+      if (!res.ok) {
+        alert("Failed to create group")
+        return
+      }
 
-   const data = await res.json();
-   console.log("data from create group",data);
-    
- 
+      const data = await res.json();
+      console.log("data from create group", data);
 
-   alert("Group created successfully");
-   setCreateGroup(false);
-   router.push(`/create_group_form?groupId=${data.group.id}`);
 
-    }catch(e){
-      console.log("Error creating group",e)
+
+      alert("Group created successfully");
+      setCreateGroup(false);
+      router.push(`/create_group_form?groupId=${data.group.id}`);
+
+    } catch (e) {
+      console.log("Error creating group", e)
       alert("Something went wrong")
     }
   }
@@ -571,18 +634,18 @@ export default function HomePage() {
       </aside>
 
       {view === "home" && <div className="md:col-span-2 space-y-4">
-    
+
 
         {/* Create button */}
-<div className="p-4">
-       <button
-          onClick={() => setOpen(true)}
-          className="flex items-center gap-2 font-semibold text-black bg-[#9BA6B7] px-4 py-2 rounded-full"
-        >
-          <Plus size={18} /> Post
-        </button>
-</div>
-   
+        <div className="p-4">
+          <button
+            onClick={() => setOpen(true)}
+            className="flex items-center gap-2 font-semibold text-black bg-[#9BA6B7] px-4 py-2 rounded-full"
+          >
+            <Plus size={18} /> Post
+          </button>
+        </div>
+
 
 
         {/* Modal for creating post */}
@@ -790,10 +853,10 @@ export default function HomePage() {
 
                 </button>
 
-                {categoryOpen && <div className=" h-[300px] absolute mt-2 w-full rounded-xl bg-white z-50 overflow-auto flex flex-col gap-2">
+                {categoryOpen && <div className=" h-[300px] absolute mt-2 w-full rounded-xl bg-[#FAF9F6] z-50 overflow-auto flex flex-col gap-2">
 
                   {CategoryOptions.map((category) => (
-                    <div key={category.value} onClick={() => { setSelectedcategory(category), setcategoryOpen(false), setListingCategory(category.value) }} className="flex items-center gap-3 text-gray-600 w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]">
+                    <div key={category.value} onClick={() => { setSelectedcategory(category), setcategoryOpen(false), setListingCategory(category.value) }} className="flex items-center gap-3 text-gray-600 w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] ">
                       {category.icon}
                       <span>{category.label}</span>
                     </div>
@@ -841,43 +904,43 @@ export default function HomePage() {
 
 
               <label className="text-xl font-bold">Pickup location</label>
-              <div className="relative" onClick={()=>setSearchLocation(true)}>
+              <div className="relative" onClick={() => setSearchLocation(true)}>
                 <FaLocationDot size={20} className="absolute top-[50%] translate-y-[-50%] left-1 flex  items-center text-gray-400" />
                 <input disabled={searchLocation} className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] " value={listingLocation} onChange={(e) => setListingLocation(e.target.value)}></input>
 
               </div>
-                          {searchLocation && 
-      <div className="fixed inset-0 z-100 flex items-center justify-center">
-        <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
+              {searchLocation &&
+                <div className="fixed inset-0 z-100 flex items-center justify-center">
+                  <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
 
-                                    <div className="flex justify-between w-full">
-                                  <h1 className="text-2xl font-bold" >Search location</h1>
+                    <div className="flex justify-between w-full">
+                      <h1 className="text-2xl font-bold" >Search location</h1>
                       <button
-                onClick={() => setSearchLocation(false)}
-                className="text-gray-500 hover:text-gray-700 block"
-              >
-                ✕
-              </button>
+                        onClick={() => setSearchLocation(false)}
+                        className="text-gray-500 hover:text-gray-700 block"
+                      >
+                        ✕
+                      </button>
 
-                  </div>
-          <div className="relative w-full">
+                    </div>
+                    <div className="relative w-full">
                       <IoIosSearch size={22} className="absolute top-[50%] inset-y-0 translate-y-[-50%] left-1 flex  items-center text-gray-400" />
 
-          <input value={locationQuery} onChange={(e)=>setLocationQuery(e.target.value)} className="w-full pl-6.5 px-1.5 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] ]"/>
+                      <input value={locationQuery} onChange={(e) => setLocationQuery(e.target.value)} className="w-full pl-6.5 px-1.5 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] ]" />
 
-          </div>
-          <div className="flex flex-col gap-2 w-full overflow-auto ">
-                 {locationResults.map((location,index)=>(
-            <div className="w-full cursor-pointer hover:bg-[#FAF9F6] rounded-xl px-4 py-2" onClick={()=>{setListingLocation(location),setSearchLocation(false)}} key={index}>{location}</div>
-          ))}
+                    </div>
+                    <div className="flex flex-col gap-2 w-full overflow-auto ">
+                      {locationResults.map((location, index) => (
+                        <div className="w-full cursor-pointer hover:bg-[#FAF9F6] rounded-xl px-4 py-2" onClick={() => { setListingLocation(location), setSearchLocation(false) }} key={index}>{location}</div>
+                      ))}
 
-          </div>
+                    </div>
 
-     
-    
 
-        </div>
-        </div>}
+
+
+                  </div>
+                </div>}
 
 
 
@@ -950,149 +1013,120 @@ export default function HomePage() {
 
       </div>}
       {view === "groups" &&
-       <div className="md:col-span-2 space-y-4">
+        <div className="md:col-span-2 space-y-4">
 
-        <div className="flex items-center gap-20">
-          <h2 className="font-semibold text-2xl">Groups</h2>
-          <button onClick={()=>setCreateGroup(true)}  className="rounded-3xl py-1.5 px-3 border-none font-semibold text-black bg-[#9BA6B7]">Create</button>
+          <div className="flex items-center gap-20">
+            <h2 className="font-semibold text-2xl">Groups</h2>
+            <button onClick={() => setCreateGroup(true)} className="rounded-3xl py-1.5 px-3 border-none font-semibold text-black bg-[#9BA6B7]">Create</button>
 
-        </div>
+          </div>
 
-        <div className="flex flex-col gap-4">
-          <h3 className="font-semibold text-xl">Groups near you</h3>
+          <div className="flex flex-col gap-4">
+            <h3 className="font-semibold text-xl">Groups near you</h3>
 
-          <div className="flex flex-wrap gap-2 max-h-[800px] overflow-y-auto ">
-            
-          { nearbyGroups.length !==0  && nearbyGroups.map((group,index)=>{
+            <div className="flex flex-wrap gap-2 max-h-[800px] overflow-y-auto ">
 
-            const isOwner = session?.user?.id === group.ownerId;
+              {nearbyGroups.length !== 0 && nearbyGroups.map((group, index) => {
 
-            if(isOwner){
-              return(
+                const isOwner = session?.user?.id === group.ownerId;
+                const isMember = group.members.some((m: any) => m.id === session?.user?.id);
 
-       <div onClick = {()=>router.push(`/create_group_form?groupId=${group.id}`)} key={index} className="flex flex-col justify-center items-center w-[250px] h-[218px] rounded-xl border-1 border-[#ABB7CC] rounded-2xl p-4 cursor-pointer">
+                if (!isOwner && !isMember) {
 
-              {group?.image && group?.image?.trim() !== "" ?    ( <img className="w-[80px] h-[80px] rounded-full object-cover" src={group.image}/>): ( <div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[80px] h-[80px] rounded-full ">{group?.name[0] ?? "U"}</div>)}
+                  return (
 
-              <div className="text-base font-semibold">{group.name}</div>
-              <div className="text-sm">{group.members?.length +1} members</div>
+                    <div key={index} className="flex flex-col justify-center items-center w-[250px] h-[218px] rounded-xl border-1 border-[#ABB7CC] rounded-2xl p-4">
 
 
 
-              <button className=" mt-2 border-none rounded-3xl font-semibold text-black px-4 py-2 bg-[#9BA6B7] ">{Joined ? "Joined":"Join"}</button>
-      
+                      {group?.image && group?.image?.trim() !== "" ? (<img onClick={() => router.push(`/group/${group.id}`)} className=" cursor-pointer w-[80px] h-[80px] rounded-full object-cover" src={group.image} />) : (<div onClick={() => router.push(`/group/${group.id}`)} className="cursor-pointer bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[80px] h-[80px] rounded-full ">{group?.name[0] ?? "U"}</div>)}
+
+                      <div onClick={() => router.push(`/group/${group.id}`)} className="cursor-pointer text-base font-semibold">{group.name}</div>
+                      <div className="text-sm">{group.members?.length + 1} members</div>
 
 
 
+                      <button onClick={() => joinMember(group.id, isOwner, isMember)} className=" mt-2 border-none rounded-3xl font-semibold text-black px-4 py-2 bg-[#9BA6B7] ">{(isMember || isOwner) ? "Invite" : "Join"}</button>
+
+
+
+
+                    </div>
+
+                  )
+                }
+
+
+
+              })}
+
+              {nearbyGroups.length === 0 && <div>No groups found near you</div>}
             </div>
 
-)
-
-            }else{
-              return(
-
-       <div onClick = {()=>router.push(`/group/${group.id}`)} key={index} className="flex flex-col justify-center items-center w-[250px] h-[218px] rounded-xl border-1 border-[#ABB7CC] rounded-2xl p-4 cursor-pointer">
-
-              {group?.image && group?.image?.trim() !== "" ?    ( <img className="w-[80px] h-[80px] rounded-full object-cover" src={group.image}/>): ( <div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[80px] h-[80px] rounded-full ">{group?.name[0] ?? "U"}</div>)}
-
-              <div className="text-base font-semibold">{group.name}</div>
-              <div className="text-sm">{group.members?.length +1} members</div>
-
-
-
-              <button className=" mt-2 border-none rounded-3xl font-semibold text-black px-4 py-2 bg-[#9BA6B7] ">{Joined ? "Joined":"Join"}</button>
-      
-
-
-
-            </div>
-
-)
-            }
-
-
-return(
-
-       <div onClick = {()=>router.push(`/create_group_form?groupId=${group.id}`)} key={index} className="flex flex-col justify-center items-center w-[250px] h-[218px] rounded-xl border-1 border-[#ABB7CC] rounded-2xl p-4 cursor-pointer">
-
-              {group?.image && group?.image?.trim() !== "" ?    ( <img className="w-[80px] h-[80px] rounded-full object-cover" src={group.image}/>): ( <div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-[80px] h-[80px] rounded-full ">{group?.name[0] ?? "U"}</div>)}
-
-              <div className="text-base font-semibold">{group.name}</div>
-              <div className="text-sm">{group.members?.length +1} members</div>
-
-
-
-              <button className=" mt-2 border-none rounded-3xl font-semibold text-black px-4 py-2 bg-[#9BA6B7] ">{Joined ? "Joined":"Join"}</button>
-      
-
-
-
-            </div>
-
-)
-       
-          })} 
-
-          {nearbyGroups.length === 0 && <div>No groups found near you</div>}
           </div>
 
         </div>
-    
-       </div>
-
-     
-       }
 
 
-       {view==="groups" && 
-       <aside className="md:col-span-1">
+      }
 
-        <div className="flex flex-col gap-4 items-start justify-center">
-          <h2 className="font-semibold text-lg">Your groups</h2>
 
-          <div className="flex flex-col gap-2 items-start justify-start">
-            { myGroups.length !== 0 ? myGroups.map((group,index)=>{
+      {view === "groups" &&
+        <aside className="md:col-span-1">
 
-              const isOwner = session?.user?.id === group.ownerId
+          <div className="flex flex-col gap-4 items-start justify-center">
+            <h2 className="font-semibold text-lg">Your groups</h2>
 
-if(isOwner){
-  return(
-             <div onClick={()=>router.push(`/create_group_form?groupId=${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
-                <img className="w-8 h-8 rounded-full object-cover" src={group.image}/>
+            <div className="flex flex-col gap-2 items-start justify-start">
+              {myGroups.length !== 0 ? myGroups.map((group, index) => {
 
-                      {group?.image && group?.image?.trim() !== "" ?    ( <img className="w-8 h-8 rounded-full object-cover" src={group.image}/>): ( <div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
-                <div className="flex flex-col items-start justify-start">
-                  <div className="text-sm font-medium">{group.name}</div>
-                  <div className="text-xs text-[#ABB7CC] ">{group.members.length +1 } members</div>
-                </div>
+                const isOwner = session?.user?.id === group.ownerId;
+                const isMember = group.members.some((m: any) => m.id === session?.user?.id)
 
-              </div>
 
-)
-}
+                if (isOwner) {
+                  return (
+                    <div onClick={() => router.push(`/create_group_form?groupId=${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
+                      {/* <img className="w-8 h-8 rounded-full object-cover" src={group.image}/> */}
 
-else{
-      <div onClick={()=>router.push(`/group/${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
-                <img className="w-8 h-8 rounded-full object-cover" src={group.image}/>
+                      {group?.image && group?.image?.trim() !== "" ? (<img className="w-8 h-8 rounded-full object-cover" src={group.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
+                      <div className="flex flex-col items-start justify-start">
+                        <div className="text-sm font-medium">{group.name}</div>
+                        <div className="text-xs text-[#ABB7CC] ">{group.members.length + 1} members</div>
+                      </div>
 
-                      {group?.image && group?.image?.trim() !== "" ?    ( <img className="w-8 h-8 rounded-full object-cover" src={group.image}/>): ( <div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
-                <div className="flex flex-col items-start justify-start">
-                  <div className="text-sm font-medium">{group.name}</div>
-                  <div className="text-xs text-[#ABB7CC] ">{group.members.length +1 } members</div>
-                </div>
+                    </div>
 
-              </div>
+                  )
+                }
 
-}
+                else {
+                  return (
 
-   
-}):<div>No groups found</div>}
+                    <div onClick={() => router.push(`/group/${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
+
+
+                      {group?.image && group?.image?.trim() !== "" ? (<img className="w-8 h-8 rounded-full object-cover" src={group.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
+                      <div className="flex flex-col items-start justify-start">
+                        <div className="text-sm font-medium">{group.name}</div>
+                        <div className="text-xs text-[#ABB7CC] ">{group.members.length + 1} members</div>
+                      </div>
+
+                    </div>
+
+                  )
+
+
+                }
+
+
+              }) : <div>No groups found</div>}
+            </div>
+
+
+
+
           </div>
-
-
-
-
-        </div>
 
         </aside>}
 
@@ -1116,34 +1150,34 @@ else{
 
 
       {createGroup && <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-100">
-      <div className="bg-white w-full max-w-lg rounded-xl p-6 flex flex-col gap-2">
-        <div className="flex w-full justify-between items-center">
-                  <div className="font-bold text-2xl">Group name</div>
-              <button
-                onClick={() => setCreateGroup(false)}
-                className="text-gray-500 hover:text-gray-700 block"
-              >
-                ✕
-              </button>
+        <div className="bg-white w-full max-w-lg rounded-xl p-6 flex flex-col gap-2">
+          <div className="flex w-full justify-between items-center">
+            <div className="font-bold text-2xl">Group name</div>
+            <button
+              onClick={() => setCreateGroup(false)}
+              className="text-gray-500 hover:text-gray-700 block"
+            >
+              ✕
+            </button>
+
+
+
+          </div>
+
+          <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={groupName} onChange={(e) => setGroupName(e.target.value)} />
+
+          <div className="">Choose a name that describes the group and it's location. Ex: Bay Area Green Thumbs, Henry Street Book Club, Dunimay Elementary Mom's  </div>
+
+
+          <div className="flex items-center justify-end gap-2 w-full">
+            <button className="border-none  px-4 py-2 text-[#ABB7CC]" onClick={() => setCreateGroup(false)}>Cancel</button>
+            <button onClick={createGroupFn} disabled={groupName.trim() === ""} className="text-white bg-[#0D1164] hover:bg-[#1a1e85] rounded-full px-4 py-2 disabled:cursor-not-allowed">Next</button>
+          </div>
 
 
 
         </div>
-
-        <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={groupName} onChange={(e)=>setGroupName(e.target.value)}/>
-
-        <div className="">Choose a name that describes the group and it's location. Ex: Bay Area Green Thumbs, Henry Street Book Club, Dunimay Elementary Mom's  </div>
-
-
-        <div className="flex items-center justify-end gap-2 w-full">
-          <button className="border-none  px-4 py-2 text-[#ABB7CC]" onClick={()=>setCreateGroup(false)}>Cancel</button>
-          <button onClick = {createGroupFn} disabled={groupName.trim() === ""} className="text-white bg-[#0D1164] hover:bg-[#1a1e85] rounded-full px-4 py-2 disabled:cursor-not-allowed">Next</button>
-        </div>
-
-
-
-      </div>
-        </div>}
+      </div>}
 
       {createEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm" >
@@ -1178,7 +1212,7 @@ else{
                 "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-full rounded-xl" />
 
               <button onClick={() => evevntRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
-                <IoImage size={24} />
+                <TiUpload size={24} />
                 Cover photo
               </button>
 
@@ -1198,28 +1232,28 @@ else{
               <h3 className="font-semibold text-lg ">Start</h3>
 
 
-{/* default  */}
+              {/* default  */}
               {/* <div className="flex gap-2">
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} placeholder="Date"></input>
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} placeholder="Time"></input>
               </div> */}
-<div className="flex gap-2">
-                                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="flex gap-2">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-  <DatePicker
-    label="Start Date"
-    value={dayjs(startDate)}
-    onChange={(newValue) => setStartDate(newValue?.format("YYYY-MM-DD") || "")}
-  />
+                  <DatePicker
+                    label="Start Date"
+                    value={dayjs(startDate)}
+                    onChange={(newValue) => setStartDate(newValue?.format("YYYY-MM-DD") || "")}
+                  />
 
-  <TimePicker
-    label="Start Time"
-    value={dayjs(`2024-01-01T${startTime}`)}
-    onChange={(newValue) => setStartTime(newValue?.format("HH:mm") || "")}
-  />
+                  <TimePicker
+                    label="Start Time"
+                    value={dayjs(`2024-01-01T${startTime}`)}
+                    onChange={(newValue) => setStartTime(newValue?.format("HH:mm") || "")}
+                  />
 
-</LocalizationProvider>
-</div>
+                </LocalizationProvider>
+              </div>
 
 
             </div>
@@ -1229,31 +1263,31 @@ else{
               <h3 className="font-semibold text-lg ">End</h3>
 
 
-{/* default */}
+              {/* default */}
               {/* <div className="flex gap-2">
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" value={endDate} onChange={(e) => setEndDate(e.target.value)} type="date" placeholder="Date"></input>
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} placeholder="Time"></input>
               </div> */}
 
 
-<div className="flex gap-2">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <div className="flex gap-2">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-  <DatePicker
-    label="End Date"
-    value={dayjs(endDate)}
-    onChange={(newValue) => setEndDate(newValue?.format("YYYY-MM-DD") || "")}
-  />
+                  <DatePicker
+                    label="End Date"
+                    value={dayjs(endDate)}
+                    onChange={(newValue) => setEndDate(newValue?.format("YYYY-MM-DD") || "")}
+                  />
 
 
-  <TimePicker
-    label="End Time"
-    value={dayjs(`2024-01-01T${endTime}`)}
-    onChange={(newValue) => setEndTime(newValue?.format("HH:mm") || "")}
-  />
+                  <TimePicker
+                    label="End Time"
+                    value={dayjs(`2024-01-01T${endTime}`)}
+                    onChange={(newValue) => setEndTime(newValue?.format("HH:mm") || "")}
+                  />
 
-</LocalizationProvider>
-</div>
+                </LocalizationProvider>
+              </div>
 
 
 
@@ -1261,42 +1295,42 @@ else{
 
             <div className="relative" onClick={() => setSearchLocation(!searchLocation)}>
               <FaLocationDot size={20} className="absolute top-[50%] translate-y-[-50%] left-1 flex  items-center text-gray-400" />
-              <input  className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location"></input>
+              <input className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Location"></input>
 
             </div>
-            {searchLocation && 
-      <div className="absolute inset-0 top-[600px] z-100 flex items-center justify-center" >
-        <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
-                
-                            <div className="flex justify-between w-full">
-                                  <h1 className="text-2xl font-bold" >Search location</h1>
-                      <button
-                onClick={() => setSearchLocation(false)}
-                className="text-gray-500 hover:text-gray-700 block"
-              >
-                ✕
-              </button>
+            {searchLocation &&
+              <div className="absolute inset-0 top-[600px] z-100 flex items-center justify-center" >
+                <div className="  bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 relative flex flex-col items-center gap-2 h-[300px]">
+
+                  <div className="flex justify-between w-full">
+                    <h1 className="text-2xl font-bold" >Search location</h1>
+                    <button
+                      onClick={() => setSearchLocation(false)}
+                      className="text-gray-500 hover:text-gray-700 block"
+                    >
+                      ✕
+                    </button>
 
                   </div>
 
-          <div className="relative w-full">
-                      <IoIosSearch size={22} className="absolute top-[50%] inset-y-0 translate-y-[-50%] left-1 flex  items-center text-gray-400" />
+                  <div className="relative w-full">
+                    <IoIosSearch size={22} className="absolute top-[50%] inset-y-0 translate-y-[-50%] left-1 flex  items-center text-gray-400" />
 
-          <input value={locationQuery} onChange={(e)=>setLocationQuery(e.target.value)} className="w-full pl-6.5 px-1.5 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] ]"/>
+                    <input value={locationQuery} onChange={(e) => setLocationQuery(e.target.value)} className="w-full pl-6.5 px-1.5 py-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] ]" />
 
-          </div>
-          <div className="flex flex-col gap-2 w-full overflow-auto ">
-                 {locationResults.map((location,index)=>(
-            <div className="w-full cursor-pointer hover:bg-[#FAF9F6] rounded-xl px-4 py-2" onClick={()=>{setLocation(location),setSearchLocation(false)}} key={index}>{location}</div>
-          ))}
+                  </div>
+                  <div className="flex flex-col gap-2 w-full overflow-auto ">
+                    {locationResults.map((location, index) => (
+                      <div className="w-full cursor-pointer hover:bg-[#FAF9F6] rounded-xl px-4 py-2" onClick={() => { setLocation(location), setSearchLocation(false) }} key={index}>{location}</div>
+                    ))}
 
-          </div>
+                  </div>
 
-     
-    
 
-        </div>
-        </div>}
+
+
+                </div>
+              </div>}
 
 
 
@@ -1308,8 +1342,8 @@ else{
       )}
 
 
-     
- 
+
+
 
     </div>
   );

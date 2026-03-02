@@ -17,6 +17,7 @@ export async function GET(req: Request) {
   const posts = await prisma.post.findMany({
     where: {
       ...(neighborhoodId ? { neighborhoodId } : {}),
+      groupId:null,
       hiddenBy:{
         none:{userId:session?.user?.id}
       },
@@ -55,6 +56,14 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+
+
+  try{
+
+  }catch(e){
+    console.log("Error creating a post",e)
+    return NextResponse.json({message:"Something went wrong"},{status:500})
+  }
   const session  = await getServerSession(authOptions );
   if (!session?.user?.id){
     alert("please sign in")
@@ -62,9 +71,9 @@ export async function POST(req: Request) {
   } 
 
   const body = await req.json();
-  const { postbody, photo, neighborhoodId, lat, lng } = body;
+  const { postbody, photo, neighborhoodId, lat, lng, groupId } = body;
 
-  if (!postbody  || !neighborhoodId) {
+  if (!neighborhoodId) {
     return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
   }
 
@@ -74,6 +83,7 @@ export async function POST(req: Request) {
       photo,
       neighborhoodId,
       userId: (session as any).user.id,
+      groupId
     },
     include: { user: true },
   });

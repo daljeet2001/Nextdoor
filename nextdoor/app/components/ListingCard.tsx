@@ -545,6 +545,8 @@ export default function ListingCard({ listing }: { listing: any }) {
                 <button disabled={!isLoggedIn} className={` ${!isLoggedIn ? "cursor-not-allowed" : ""} border-none`} onClick={() => saveListing(listing.id)}>
                   <FaRegBookmark size={24} />
                 </button>}
+
+                <div className="relative">
               <button ref={menuButton} disabled={!isLoggedIn} onClick={() => setMenu(!menu)} className={` ${!isLoggedIn ? "cursor-not-allowed" : ""} border-none`}>
                 <PiDotsThree size={28} />
               </button>
@@ -618,6 +620,7 @@ export default function ListingCard({ listing }: { listing: any }) {
                 )}
 
               </div>}
+              </div>
             </div>
           </div>
 
