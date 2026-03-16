@@ -24,6 +24,7 @@ const userId = params.id
     },
     orderBy: { createdAt: 'desc' },
     include: { user: true ,
+      photos:true,
       likes:{
       where:{
         userId

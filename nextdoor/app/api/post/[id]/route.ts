@@ -120,7 +120,8 @@ export async function PUT(req: Request, { params }: {
 
 
         const postId = params.id;
-        const { caption, photo } = await req.json();
+        const { caption, photos } = await req.json();
+        console.log("photos in PUT",photos)
 
         const post = await prisma.post.findUnique({
             where: {
@@ -153,7 +154,10 @@ export async function PUT(req: Request, { params }: {
                 id: postId
             },
             data: {
-                photo,
+                photos:{
+                         deleteMany:{},
+                    create:photos.map((p:any)=>({url:p.url}))
+                },
                 body: caption
             }
         })

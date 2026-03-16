@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useSocket } from "../socket.context";
 import { ImagePlus } from "lucide-react";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default function CreatePostForm({
   neighborhoodid,
@@ -19,8 +20,8 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
  
   const { data: session } = useSession();
   const [postbody, setPostBody] = useState("");
-  const [photo, setPhoto] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<(null | File)[]>([]);
+  const [preview, setPreview] = useState<(string | null)[]>([]);
   const [loading, setLoading] = useState(false);
 
   const socket = useSocket();
@@ -29,17 +30,27 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
       setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-    });
+    }); 
   }, []);
 
   const uploadPhoto = async () => {
-    if (!photo) return null;
-    const formData = new FormData();
-    formData.append("file", photo);
+    if (photos.length === 0) return [];
+    if(photos.length>5){
+      alert("Max 5 images allowed")
+      return;
+    }
+  
+   const uploads = photos.map(async(photo:any,index)=>{
+        const formData = new FormData();
+            formData.append("file", photo);
     const res = await fetch("/api/upload", { method: "POST", body: formData });
     if (!res.ok) throw new Error("Photo upload failed");
     const data = await res.json();
-    return data.url; 
+    return data.url;     
+      
+    })
+    return await Promise.all(uploads)
+      
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -48,7 +59,7 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
 
     setLoading(true);
     try {
-      const photoUrl = await uploadPhoto();
+      const photosUrl = await uploadPhoto();
 
 
 
@@ -58,7 +69,7 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           postbody,
-          photo: photoUrl,
+          photos: photosUrl,
           neighborhoodId: neighborhoodid,
           lat: location?.lat,
           lng: location?.lng,
@@ -76,8 +87,8 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
       }
 
       setPostBody("");
-      setPhoto(null);
-      setPreview(null);
+      setPhotos([]);
+      setPreview([]);
       if (onCreated) onCreated(post);
     } catch (err) {
       console.error(err);
@@ -122,20 +133,40 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
                 accept="image/*"
                 onChange={(e) => {
                   const file = e.target.files?.[0] || null;
-                  setPhoto(file);
-                  setPreview(file ? URL.createObjectURL(file) : null);
+                  setPhotos((prev:any)=>[...prev,file]);
+                  setPreview((prev:any)=>[...prev,file ?URL.createObjectURL(file):null])
+
                 }}
                 className="hidden"
               />
             </div>
                   {/* Image Preview */}
             {preview && (
-              <div className="relative mt-2">
-                <img
-                  src={preview}
+              <div className="h-[200px] relative mt-2 flex items-center gap-2 flex-wrap overflow-auto">
+                {
+                  preview.map((p:any,index)=>(
+                    <div  key={index} className="relative">
+                                     <img
+                       
+                  src={p}
                   alt="preview"
-                  className="w-full max-h-60 rounded-lg object-cover "
+                  className="w-40 h-40 rounded-lg object-cover "
                 />
+                <button type="button" onClick={
+                  ()=>{
+                  setPreview(preview.filter((_:any,i:number)=>index!==i))
+                  setPhotos(photos.filter((_:any,i:number)=>i!==index))
+                  }
+              
+                  } className="absolute right-1 top-1 "><IoCloseOutline size={24} color={"white"}/></button>
+
+                    </div>
+         
+
+                  )
+                  )
+                }
+            
               </div>
             )}
             <textarea

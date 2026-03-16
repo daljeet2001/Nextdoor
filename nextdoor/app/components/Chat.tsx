@@ -41,6 +41,7 @@ export default function Chat({ userId, userName,optimistic}: { userId: string; u
     };
 
     ws.current.onmessage = (event) => {
+      console.log("message from ws-server",event)
       const msg = JSON.parse(event.data);
       setMessages((prev) => [...prev, msg]);
     };

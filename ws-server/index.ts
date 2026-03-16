@@ -24,15 +24,21 @@ wss.on("connection", (ws) => {
       }
 
       if (msg.type === "message") {
+ console.log("message on ws-sevrer",msg)
+       
         const { senderId, receiverId, content } = msg;
         const receiver = clients.get(receiverId);
 
         if (receiver && receiver.readyState === WebSocket.OPEN) {
+
           receiver.send(JSON.stringify(msg));
+          console.log("message sent from ws-server")
         }
       }
 
       if (msg.type === "new_post" || msg.type === "new_service") {
+          console.log("clients in ws",clients)
+
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(msg));

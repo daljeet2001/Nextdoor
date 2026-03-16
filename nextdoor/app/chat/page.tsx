@@ -21,7 +21,7 @@ export default function MessagesPage() {
   return (
     <div className="flex h-screen ">
       {/* Left Sidebar - Chat List */}
-      <div className="w-1/3">
+      <div className="min-w-1/2">
         <ChatList
           userId={session.user.id}
           onSelectChat={(partnerId) => setSelectedUserId(partnerId)}

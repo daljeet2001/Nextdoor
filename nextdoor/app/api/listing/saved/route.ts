@@ -24,7 +24,8 @@ export async function GET(req:Request){
             listing:{
                 include:{
                     user:true,
-                    savedBy:true
+                    savedBy:true,
+                    images:true
                 }
             }
         },

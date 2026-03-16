@@ -25,7 +25,8 @@ export async function GET(req:Request, {params}:{params:{id:string}}){
         },
         include:{
             user:true,
-            savedBy:true
+            savedBy:true,
+            images:true
         }
     })
 
@@ -55,7 +56,7 @@ export async function PUT(req:Request,{params}:{params:{id:string}}){
 
         const listingId = params.id;
 
-        const { name, description, price, image, location, category } = await  req.json()
+        const { name, description, price, images, location, category } = await  req.json()
         
         if(!listingId){
             return NextResponse.json({
@@ -103,7 +104,12 @@ export async function PUT(req:Request,{params}:{params:{id:string}}){
                 price,
                 category,
                 location,
-                image
+                images:{
+                    deleteMany:{},
+                    create:images.map((i:any)=>({url:i.url}))
+                }
+             
+                
             }
         })
 

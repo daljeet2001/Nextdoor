@@ -33,6 +33,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { HiHomeModern } from "react-icons/hi2";
+import { ImagePlus } from "lucide-react";
+import { useSocket } from "../socket.context";
 
 const names = [
   'Oliver Hansen',
@@ -132,6 +134,7 @@ import { TbHorseToy } from "react-icons/tb";
 import { FaTv } from "react-icons/fa";
 import { FaBaby } from "react-icons/fa";
 
+import { IoCloseOutline } from "react-icons/io5";
 
 
 
@@ -205,7 +208,8 @@ export default function HomePage() {
 
 
   const [price, setPrice] = useState("");
-  const [listingImage, setListingImage] = useState("");
+  const [listingImage, setListingImage] = useState<(null | File)[]>([]);
+  const [ listingPreview, setListingPreview ] = useState<(null | string)[]>([]);
   const listingRef = useRef<HTMLInputElement>(null);
   const [listingName, setListingName] = useState("");
   const [listingDescription, setListingDescription] = useState("");
@@ -244,6 +248,21 @@ export default function HomePage() {
       },
     },
   };
+const socket = useSocket()
+
+  // useEffect(()=>{
+
+  //   if(!session?.user?.id || !socket){
+  //     return
+  //   }
+
+  //   if(socket){
+  //     socket.send(JSON.stringify({type:"register",userId:session?.user?.id}))
+  //     console.log("register message sent")
+  //   }
+
+
+  // },[socket,session])
 
   const joinMember = async (groupId: string, isOwner: boolean, isMember: boolean) => {
 
@@ -523,13 +542,16 @@ export default function HomePage() {
 
     try {
       setListingLoading(true);
+
+      const photosUrl = await uploadPhoto();
+      console.log("photosUrl",photosUrl)
       const res = await fetch("/api/listing", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          image: listingImage,
+          images: photosUrl,
           name: listingName,
           category: listingCategory,
           price,
@@ -621,7 +643,25 @@ export default function HomePage() {
 
 
 
-
+  const uploadPhoto = async () => {
+    if (listingImage.length === 0) return [];
+    if(listingImage.length>5){
+      alert("Max 5 images allowed")
+      return;
+    }
+  
+   const uploads = listingImage.map(async(photo:any,index)=>{
+        const formData = new FormData();
+            formData.append("file", photo);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    if (!res.ok) throw new Error("Photo upload failed");
+    const data = await res.json();
+    return data.url;     
+      
+    })
+    return await Promise.all(uploads)
+      
+  };
 
 
 
@@ -701,8 +741,8 @@ export default function HomePage() {
         </div>
       </div>}
 
-      {view === "sale" && <div className="md:col-span-3 space-y-4">
-        <div className="flex justify-between items-center">
+      {view === "sale" && <div className="md:col-span-3 space-y-4 h-[800px]">
+        <div className="flex  md:justify-between  items-center flex-wrap">
 
           <div className="flex items-center gap-2">
             <button onClick={() => setSellType("all")} className={`background-none px-4 py-2 ${sellType === "all" ? "border-b-2 border-black" : ""} text-black`}>All listings</button>
@@ -710,19 +750,19 @@ export default function HomePage() {
             <button onClick={() => setSellType("saved")} className={`background-none px-4 py-2 ${sellType === "saved" ? "border-b-2 border-black" : ""} text-black`}>Saved listings</button>
           </div>
 
-          <button className="rounded-3xl py-2 px-4 border-none font-semibold text-black bg-[#9BA6B7]" onClick={() => setSellMenuOpen(true)}>Create a listing</button>
+          <button className="rounded-3xl py-2 px-4 border-none font-semibold text-black bg-[#9BA6B7] mt-4" onClick={() => setSellMenuOpen(true)}>Create a listing</button>
 
         </div>
 
 
-        {sellType === "all" && <div className="max-h-[800px] overflow-y-auto pr-2 p-3   rounded-lg flex flex-wrap ">
+        {sellType === "all" && <div className="h-[700px] overflow-y-auto pr-2 p-3   rounded-lg flex flex-wrap ">
           {allListings.length !== 0 ? (allListings.map((listing, index) => {
             const address = listing.location.split(" ");
 
             console.log("address", address)
             return (
               <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
-                <img src={listing.image} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
+                <img src={listing?.images[0]?.url} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
                 <div className="text-sm font-semibold mt-1">₹{listing.price}</div>
                 <div className="text-sm font-semibold">{listing.name}</div>
                 <div className="text-xs font-semibold text-[#ABB7CC] truncate">{timeAgo(listing.createdAt)}. {listing.location.slice(0, 20)}</div>
@@ -734,14 +774,14 @@ export default function HomePage() {
 
           )) : (<div>No listings found</div>)}
         </div>}
-        {sellType === "your" && <div className=" max-h-[800px] overflow-y-auto pr-2 p-3 rounded-lg flex flex-wrap">
+        {sellType === "your" && <div className=" h-[700px] overflow-y-auto pr-2 p-3 rounded-lg flex flex-wrap">
           {yourListings.length !== 0 ? (yourListings.map((listing, index) => {
             const address = listing.location.split(" ");
 
             console.log("address", address)
             return (
               <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
-                <img src={listing.image} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
+                <img src={listing?.images[0]?.url} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
                 <div className="text-sm font-semibold mt-1">₹{listing.price}</div>
                 <div className="text-sm font-semibold">{listing.name}</div>
                 <div className="text-xs font-semibold text-[#ABB7CC] truncate">{timeAgo(listing.createdAt)}. {listing.location.slice(0, 20)}</div>
@@ -753,14 +793,14 @@ export default function HomePage() {
 
           )) : (<div>No listings found</div>)}
         </div>}
-        {sellType === "saved" && <div className="max-h-[800px] overflow-y-auto pr-2 p-3  rounded-lg flex flex-wrap">
+        {sellType === "saved" && <div className="h-[700px] overflow-y-auto pr-2 p-3  rounded-lg flex flex-wrap">
           {savedListings.length !== 0 ? (savedListings.map((listing, index) => {
             const address = listing.listing.location.split(" ");
 
             console.log("address", address)
             return (
               <Link href={`/listing/${listing.listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
-                <img src={listing.listing.image} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
+                <img src={listing?.listing?.images[0]?.url} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
                 <div className="text-sm font-semibold mt-1">₹{listing.listing.price}</div>
                 <div className="text-sm font-semibold">{listing.listing.name}</div>
                 <div className="text-xs font-semibold text-[#ABB7CC] truncate">{timeAgo(listing.listing.createdAt)}. {listing.listing.location.slice(0, 20)}</div>
@@ -800,14 +840,15 @@ export default function HomePage() {
 
               </div>
 
-              <div className=" relative h-[121px] w-[200px]">
 
-                <img src={listingImage ? listingImage :
-                  "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-full rounded-xl" />
+                  
 
-                <button onClick={() => listingRef.current?.click()} className="absolute left-1/2 top-1/2 trsnaform -translate-x-1/2 -translate-y-1/2 mx-auto flex items-center gap-2  text-white text-sm font-medium w-fit">
-                  <TiUpload size={24} color="white" />
-                  Add photo
+                <button onClick={() => listingRef.current?.click()} className="flex items-center gap-2 flex text-black text-sm font-medium  w-40 h-40  ">
+        
+                <ImagePlus className="w-5 h-5" />
+                Upload Photo
+          
+
                 </button>
 
                 <input
@@ -815,10 +856,45 @@ export default function HomePage() {
                   hidden
                   accept="/*image"
                   ref={listingRef}
-                  onChange={(e) => handleListingImageUpload(e.target.files?.[0])}
+                  onChange={(e) =>{
+                    const file = e.target?.files?.[0] || null
+
+                     setListingImage((prev:any)=>[...prev,file]);
+                     setListingPreview((prev:any)=>[...prev,file? URL.createObjectURL(file): null]);
+
+                  }
+                   
+                  }
                 />
 
-              </div>
+                {listingPreview && (
+                              <div className="min-h-[150px] relative mt-4 flex items-center gap-2 flex-wrap overflow-auto h-auto">
+                                {
+                                  listingPreview.map((p:any,index)=>(
+                                    <div  key={index} className="relative">
+                                                     <img
+                                       
+                                  src={p}
+                                  alt="preview"
+                                  className="w-40 h-40 rounded-lg object-cover "
+                                />
+                                <button type="button" onClick={
+                                  ()=>{
+                                  setListingPreview(listingPreview.filter((_:any,i:number)=>index!==i))
+                                  setListingImage(listingImage.filter((_:any,i:number)=>i!==index))
+                                  }
+                              
+                                  } className="absolute right-1 top-1 "><IoCloseOutline size={24} color={"white"}/></button>
+                
+                                    </div>
+                         
+                
+                                  )
+                                  )
+                                }
+                            
+                              </div>
+                            )}
               <h2 className="text-2xl font-bold">What are you selling</h2>
 
               <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={listingName} onChange={(e) => setListingName(e.target.value)} placeholder="Title"></input>
@@ -906,7 +982,7 @@ export default function HomePage() {
               <label className="text-xl font-bold">Pickup location</label>
               <div className="relative" onClick={() => setSearchLocation(true)}>
                 <FaLocationDot size={20} className="absolute top-[50%] translate-y-[-50%] left-1 flex  items-center text-gray-400" />
-                <input disabled={searchLocation} className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] " value={listingLocation} onChange={(e) => setListingLocation(e.target.value)}></input>
+                <input placeholder="Location" disabled={searchLocation} className="w-full px-7 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] " value={listingLocation} onChange={(e) => setListingLocation(e.target.value)}></input>
 
               </div>
               {searchLocation &&
@@ -955,7 +1031,7 @@ export default function HomePage() {
         }
       </div>}
 
-      {view === "events" && <div className="md:col-span-3 space-y-4">
+      {view === "events" && <div className="md:col-span-3 space-y-4 h-[800px]">
 
         <h2 className="font-semibold text-2xl ">Events near you</h2>
 
@@ -965,7 +1041,7 @@ export default function HomePage() {
         </div>
 
         {eventsData.length !== 0 ?
-          <div className="flex justify-start items-start gap-4 flex-wrap h-[800px] overflow-y-auto w-full">
+          <div className="flex justify-start items-start gap-4 flex-wrap h-[700px] overflow-y-auto w-full">
             {
               eventsData?.map((event, index) => {
                 const id = event.id;
@@ -975,7 +1051,7 @@ export default function HomePage() {
                   <div key={index} className=" relative w-[262px] h-[362px] flex flex-col gap-2 items-start justify-center p-2 border-1 border-[#ABB7CC] rounded-2xl relative">
 
                     <img className="w-[244px] h-[244px] rounded-2xl object-cover  cursor-pointer
-" src={event.image} alt="event_image" onClick={() => router.push(`/event/${id}`)} />
+" src={event.image || null} alt="event_image" onClick={() => router.push(`/event/${id}`)} />
                     <div className="bg-white text-black px-3 py-1 rounded-xl absolute bottom-28 left-4 flex flex-col  items-center ">
                       <p className="text-3xl font-bold">{event.startDate.slice(0, 2)}</p>
                       <p>{event.startDate.slice(3)}</p>
@@ -1024,7 +1100,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-4">
             <h3 className="font-semibold text-xl">Groups near you</h3>
 
-            <div className="flex flex-wrap gap-2 max-h-[800px] overflow-y-auto ">
+            <div className="flex flex-wrap gap-2 h-[800px] overflow-y-auto ">
 
               {nearbyGroups.length !== 0 && nearbyGroups.map((group, index) => {
 
@@ -1211,8 +1287,8 @@ export default function HomePage() {
               <img src={eventCover ? eventCover :
                 "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-full rounded-xl" />
 
-              <button onClick={() => evevntRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
-                <TiUpload size={24} />
+              <button onClick={() => evevntRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2  text-white px-4 py-2  text-sm font-medium w-fit">
+                <ImagePlus className="w-5 h-5" />
                 Cover photo
               </button>
 
@@ -1228,7 +1304,7 @@ export default function HomePage() {
 
             <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={eventName} onChange={(e) => setEventName(e.target.value)} placeholder="Event name"></input>
 
-            <div className="flex justify-between items-center  w-full ">
+            <div className="flex flex-wrap  justify-between items-center  w-full ">
               <h3 className="font-semibold text-lg ">Start</h3>
 
 
@@ -1237,7 +1313,7 @@ export default function HomePage() {
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} placeholder="Date"></input>
                 <input className="px-2 py-4 focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6] rounded-xl focus:outline-none" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} placeholder="Time"></input>
               </div> */}
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
 
                   <DatePicker
@@ -1259,7 +1335,7 @@ export default function HomePage() {
             </div>
 
 
-            <div className="flex justify-between items-center  w-full">
+            <div className="flex flex-wrap justify-between items-center  w-full">
               <h3 className="font-semibold text-lg ">End</h3>
 
 
@@ -1270,7 +1346,7 @@ export default function HomePage() {
               </div> */}
 
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
 
                   <DatePicker

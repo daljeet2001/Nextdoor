@@ -34,14 +34,46 @@ import { FaRupeeSign } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
 import Switch from '@mui/material/Switch';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-const CategoryOptions = [
-  { value: "Appliances", label: "Appliances", icon: <FaTools /> },
-  { value: "Automotive", label: "Automotive", icon: <FaCar /> },
-  { value: "kids", label: "Baby & Kids", icon: <TbMoodKid /> },
-  { value: "Bicycles", label: "Bicycles", icon: <FaBicycle /> },
-  { value: "Clothing", label: "Clothing", icon: <GiClothes /> },
-  { value: "Electronics", label: "Electronics", icon: <LuWashingMachine /> },
-];
+
+import { MdTableRestaurant } from "react-icons/md";
+import { BiSolidCarGarage } from "react-icons/bi";
+import { TbGardenCartFilled } from "react-icons/tb";
+import { MdSell } from "react-icons/md";
+import { GiGuitarBassHead } from "react-icons/gi";
+import { TbHomeSearch } from "react-icons/tb";
+import { MdOutlineSportsMotorsports } from "react-icons/md";
+import { IoTicket } from "react-icons/io5";
+import { TbTools } from "react-icons/tb";
+import { TbHorseToy } from "react-icons/tb";
+import { FaTv } from "react-icons/fa";
+import { FaBaby } from "react-icons/fa";
+import { HiHomeModern } from "react-icons/hi2";
+import { GrPrevious } from "react-icons/gr";
+import { GrNext } from "react-icons/gr";
+   import { IoCloseOutline } from "react-icons/io5";
+
+
+  const CategoryOptions = [
+    { value: "Appliances", label: "Appliances", icon: <LuWashingMachine /> },
+    { value: "Automotive", label: "Automotive", icon: <FaCar /> },
+    { value: "kids", label: "Baby & Kids", icon: <FaBaby /> },
+    { value: "Bicycles", label: "Bicycles", icon: <FaBicycle /> },
+    { value: "Clothing", label: "Clothing", icon: <GiClothes /> },
+    { value: "Electronics", label: "Electronics", icon: <FaTv /> },
+
+    { value: "Furniture", label: "Furniture", icon: <MdTableRestaurant /> },
+    { value: "Garage sales", label: "Garage sales", icon: <BiSolidCarGarage /> },
+    { value: "Garden", label: "Garden", icon: <TbGardenCartFilled /> },
+    { value: "Home decor", label: "Home decor", icon: <HiHomeModern /> },
+    { value: "Home sales", label: "Home sales", icon: <MdSell /> },
+    { value: "Musical instruments", label: "Musical instruments", icon: <GiGuitarBassHead /> },
+    { value: "Property rentals", label: "Property rentals", icon: <TbHomeSearch /> },
+    { value: "Sports & outdoors", label: "Sports and outdoors", icon: <MdOutlineSportsMotorsports /> },
+    { value: "Tickets", label: "Tickets", icon: <IoTicket /> },
+    { value: "Tools", label: "Tools", icon: <TbTools /> },
+    { value: "Toys & games", label: "Toys & games", icon: <TbHorseToy /> },
+
+  ];
 
 
 
@@ -69,7 +101,11 @@ export default function ListingCard({ listing }: { listing: any }) {
   const [checked, setChecked] = useState(false);
   const [searchLocation, setSearchLocation] = useState(false);
   const [locationQuery, setLocationQuery] = useState("");
-  const [locationResults, setLocationResults] = useState([])
+  const [locationResults, setLocationResults] = useState([]);
+  const [ largeScreen, setLargeScreen ] = useState(false)
+
+
+  
 
 
 
@@ -79,7 +115,7 @@ export default function ListingCard({ listing }: { listing: any }) {
 
 
   const [price, setPrice] = useState(listing.price);
-  const [listingImage, setListingImage] = useState(listing.image);
+  const [listingImages, setListingImages] = useState(listing.images);
   const listingRef = useRef<HTMLInputElement>(null);
   const [listingName, setListingName] = useState(listing.name);
   const [listingDescription, setListingDescription] = useState(listing.description);
@@ -92,6 +128,27 @@ export default function ListingCard({ listing }: { listing: any }) {
 
 
   const [categoryOpen, setcategoryOpen] = useState(false);
+
+    const [ currentImage, setCurrentImage ] = useState(0);
+
+
+
+    useEffect(()=>{
+
+      setLargeScreen(window.innerWidth>=768)
+
+    },[])
+  useEffect(()=>{
+setCurrentImage(0)
+  },[listing])
+
+  const nextImage = ()=>{
+    setCurrentImage((prev)=>prev === listing.images.length-1 ? 0: prev+1)
+  }
+
+  const prevImage = ()=>{
+    setCurrentImage((prev)=>prev === 0? listing.images.length-1 : prev-1)
+  }
 
 
   const listingUrl = typeof window != "undefined" ? `${window.location.origin}/listing/${listing.id}` : "";
@@ -330,7 +387,7 @@ export default function ListingCard({ listing }: { listing: any }) {
       body: JSON.stringify({
         name: listingName,
         description: listingDescription,
-        image: listingImage,
+        images: listingImages,
         category: listingCategory,
         price,
         location: listingLocation
@@ -433,7 +490,7 @@ export default function ListingCard({ listing }: { listing: any }) {
     const data = await res.json();
     console.log("listing image after upload api", data)
 
-    setListingImage(data.url)
+    setListingImages(data.url)
 
   }
 
@@ -505,35 +562,68 @@ export default function ListingCard({ listing }: { listing: any }) {
 
   return (
     <>
-      <div className="flex items-start gap-4 p-4 ">
-        <div className="flex flex-col  w-[60%] items-start h-auto">
-          <img className="object-cover rounded-3xl w-full h-[450px]" src={listing.image} alt="event-image" />
+      <div className="flex items-start gap-4 p-4 lg:flex-nowrap flex-wrap ">
+        <div className="flex flex-col w-full  md:w-[60%] items-start h-auto">
+          {/* <img className="object-cover rounded-3xl w-full h-[450px]" src={listing.image} alt="event-image" /> */}
+              {
+                      listing?.images?.length>0 &&       
+                       <div className="relative w-full mt-2">
+            
+                        {
+                          listing?.images?.length>1 &&    <button className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-black/40 w-8 h-8 rounded-full flex items-center justify-center" onClick={prevImage}><GrPrevious size={20}/></button>
+                        }
+            
+                     
+              
+                              <img src={listing?.images[currentImage]?.url} alt="post image" className="w-full h-[450px]  rounded-3xl object-cover" />
+            
+                    {
+                          listing?.images?.length>1 &&    <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-black/40 w-8 h-8 rounded-full flex items-center justify-center" onClick={nextImage}><GrNext size={20}/></button>
+                        }
+            
+            
+                        {listing?.images?.length>1&& <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+                        {listing.images.map((_:any,index:number)=>
+            
+                        <div key={index} className={`w-4 h-2 rounded-xl ${index === currentImage? "bg-white":"bg-white/40"} `}></div>
+                        )}
+                          </div>}
+                    
+            
+                     
+                    </div>
+                    }
 
-          <div className="w-full overflow-y-auto pr-2 p-3 flex flex-wrap gap-2 space-y-1 rounded-lg">
-            <div className="font-bold text-3xl">More listings near you</div>
-            {allListing.length > 0 ? (allListing.map((listing, index) => {
-              const address = listing.location.split(" ");
-              console.log("address", address)
-              return (
-                <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
-                  <img src={listing.image} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
-                  <div className="text-sm font-semibold mt-1">₹{listing.price}</div>
-                  <div className="text-sm font-semibold">{listing.name}</div>
-                  <div className="text-xs font-semibold text-[#ABB7CC] truncate">{timeAgo(listing.createdAt)} . {listing.location.slice(0, 20)}</div>
-                </Link>
-              )
+   {largeScreen && <div className="w-full overflow-y-auto pr-2 p-3 flex flex-wrap gap-2 space-y-1 rounded-lg">
+      <div className="font-bold text-3xl">More listings near you</div>
+      {allListing.length > 0 ? (allListing.map((listing, index) => {
+        const address = listing.location.split(" ");
+        console.log("address", address)
+        return (
+          <Link href={`/listing/${listing.id}`} key={index} className="w-[195px] h-[280px] p-2 flex flex-col items-start justify-center cursor-pointer">
+            <img src={listing?.images[0]?.url} alt="listing_image" className="w-[188px] h-[188px] rounded-xl object-cover" />
 
 
-            }
+                
 
-            )) : (<div>No listings found near you</div>)}
 
-          </div> <div className=""></div>
+            <div className="text-sm font-semibold mt-1">₹{listing.price}</div>
+            <div className="text-sm font-semibold">{listing.name}</div>
+            <div className="text-xs font-semibold text-[#ABB7CC] truncate">{timeAgo(listing.createdAt)} . {listing.location.slice(0, 20)}</div>
+          </Link>
+        )
+
+
+      }
+
+      )) : (<div>No listings found near you</div>)}
+
+    </div>  } 
 
         </div>
 
 
-        <div className="max-h-[700px] w-[40%] rounded-3xl border-1 border-[#ABB7CC] p-4 flex flex-col items-start h-auto">
+        <div className="min-h-[450px]  md:w-[40%] w-full rounded-3xl border-1 border-[#ABB7CC] p-4 flex flex-col items-start h-auto ">
 
           <div className="flex justify-between items-center w-full relative">
             <div className="text-2xl font-bold whitespace-normal">{listing.name}</div>
@@ -579,7 +669,7 @@ export default function ListingCard({ listing }: { listing: any }) {
                     <Menuitem
                       icon={<X size={20} />}
                       title="Hide"
-                      subtitle="Remove post from your feed"
+                      subtitle="Remove listing from your feed"
                       onClick={() => {
                         setMenu(false)
                         handleHideListing()
@@ -596,7 +686,7 @@ export default function ListingCard({ listing }: { listing: any }) {
                     <Menuitem
                       icon={<Pencil size={20} />}
                       title="Edit"
-                      subtitle="Upadte the content of your post"
+                      subtitle="Upadte the content of your listing"
                       onClick={() => {
                         setMenu(false)
                         setEditMenu(true)
@@ -606,7 +696,7 @@ export default function ListingCard({ listing }: { listing: any }) {
                     <Menuitem
                       icon={<Trash2 size={20} />}
                       title="Delete"
-                      subtitle="Permanently remove post"
+                      subtitle="Permanently remove listing"
                       danger
 
                       onClick={() => {
@@ -687,7 +777,8 @@ export default function ListingCard({ listing }: { listing: any }) {
                 onClick={() => setChatOpen(false)}
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               >
-                ✖
+       < IoCloseOutline size={24}/>
+
               </button>
 
               <Chat userId={listing.user.id} userName={listing.user.name ?? "User"} optimistic={false} />
@@ -704,10 +795,10 @@ export default function ListingCard({ listing }: { listing: any }) {
               {/* Model */}
               <div className="relative z-10 w-[320px]  rounded-2xl bg-[#2F2F2F] p-4 shadow-xl ">
                 <h3 className="text-lg font-semibold text-white ">
-                  Delete Post?
+                  Delete Listing?
                 </h3>
                 <p className="mt-1 text-sm text-neutral-400">
-                  Your post will be permanently removed.
+                  Your listing will be permanently removed.
                 </p>
                 <div className="mt-4 flex justify-end gap-3">
 
@@ -758,23 +849,36 @@ export default function ListingCard({ listing }: { listing: any }) {
 
             </div>
 
-            <div className=" relative h-[121px] w-[200px]">
+            <div className=" relative h-[121px] w-full">
 
-              <img src={listingImage ? listingImage :
-                "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-full rounded-xl" />
+           
 
-              <button onClick={() => listingRef.current?.click()} className="absolute left-1/2 top-1/2 trsnaform -translate-x-1/2 -translate-y-1/2 mx-auto flex items-center gap-2  text-white text-sm font-medium w-fit">
-                <TiUpload size={24} color="white" />
-                Add photo
+                  {listingImages?.length>0 && (
+                  <div className="flex w-full flex-wrap gap-2">
+               {           listingImages?.map((editImage:any,index:number)=>(
+                          <div key={index} className="relative w-30 shrink-0">
+                  <img src={editImage.url} className="rounded-xl w-28 h-28 object-cover"/>
+                              <button onClick={
+                          ()=>
+                               setListingImages(listingImages.filter((_:any,i:number)=>i!==index))
+                                } className="absolute right-2 top-0 rounded-full">
+                <IoCloseOutline size={24} color={"white"} />
+              
               </button>
 
-              <input
-                type="file"
-                hidden
-                accept="/*image"
-                ref={listingRef}
-                onChange={(e) => handleListingImageUpload(e.target.files?.[0])}
-              />
+  
+        
+                  </div>
+
+                  ))}
+                  </div>
+            
+            
+                )}
+
+          
+
+           
 
             </div>
             <h2 className="text-2xl font-bold">What are you selling</h2>

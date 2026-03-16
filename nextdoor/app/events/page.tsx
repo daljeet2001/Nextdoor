@@ -219,7 +219,7 @@ useEffect(()=>{
     return (
         <>
 
-            <div className="flex flex-col items-start gap-4 ">
+            <div className="flex flex-col items-start gap-4 h-[800px] ">
                 <div className="flex  justify-between  gap-2 px-4 py-3 ">
 
                     <div className="flex items-center gap-2">

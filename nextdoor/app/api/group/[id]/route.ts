@@ -46,6 +46,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
                     
                     include:{
                         user:true,
+                        photos:true,
                             likes:{
       where:{
         userId:session?.user?.id

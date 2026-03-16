@@ -50,7 +50,7 @@ const handleShare = {
 
 
   return (
-    <div className="flex flex-col h-[290px] w-[500px]   rounded-xl shadow-md  overflow-hidden ">
+    <div className="flex flex-col h-[290px]  lg:w-[500px]   rounded-xl shadow-md  overflow-hidden ">
       {/* Header */}
       <div className="flex items-center gap-3 p-3 mt-2 ">
      
@@ -74,7 +74,7 @@ const handleShare = {
             </div>
       
             </div>
-            <img src={post.photo} className="w-[60px] h-[60px] object-cover"></img>
+            <img src={post.photos[0].url} className="w-[60px] h-[60px] object-cover"></img>
        
          
         </div>

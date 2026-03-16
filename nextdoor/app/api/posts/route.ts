@@ -32,6 +32,7 @@ export async function GET(req: Request) {
     },
     orderBy: { createdAt: 'desc' },
     include: { user: true ,
+      photos:true,
       likes:{
       where:{
         userId:session?.user?.id
@@ -71,7 +72,7 @@ export async function POST(req: Request) {
   } 
 
   const body = await req.json();
-  const { postbody, photo, neighborhoodId, lat, lng, groupId } = body;
+  const { postbody, photos, neighborhoodId, lat, lng, groupId } = body;
 
   if (!neighborhoodId) {
     return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
@@ -80,12 +81,17 @@ export async function POST(req: Request) {
   const post = await prisma.post.create({
     data: {
       body:postbody,
-      photo,
+      photos:{
+   
+        create:photos.map((url:string)=>({
+          url
+        }))
+      },
       neighborhoodId,
       userId: (session as any).user.id,
       groupId
     },
-    include: { user: true },
+    include: { user: true , photos:true},
   });
 
   // Return the created post; clients should notify WS server to broadcast.

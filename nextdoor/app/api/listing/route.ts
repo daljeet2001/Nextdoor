@@ -33,7 +33,8 @@ export async function GET(req:Request){
             }
         },
         include:{
-            user:true
+            user:true,
+            images:true
         },
         orderBy:{createdAt:'desc'}
     })
@@ -52,10 +53,10 @@ export async function POST(req:Request){
         })
     }
 
-    const { image, name, category, description, price, location} = await req.json();
+    const { images, name, category, description, price, location} = await req.json();
     
 
-    if(!image || !name || !category || !description || !price || !location){
+    if(!images || !name || !category || !description || !price || !location){
         return NextResponse.json({
             message:"Missing fields"
         },{
@@ -63,9 +64,13 @@ export async function POST(req:Request){
         })
     }
 
+    console.log("images on server side",images)
+
     const listing = await prisma.listing.create({
         data:{
-            image,
+            images:{
+                create:images.map((url:string)=>({url}))
+            },
             name,
             category,
             description,

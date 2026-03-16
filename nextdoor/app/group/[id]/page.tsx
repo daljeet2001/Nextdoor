@@ -120,7 +120,7 @@ export default function Group({ params }: { params: { id: string } }) {
                   <div className="flex items-center gap-2">
 
                     <div className="rounded-full w-6 h-6 bg-[#FAF9F6] flex items-center jutify-center"><FaLink size={24} color={"black"} /></div>
-                    <div className="font-bold">{url}</div>
+                    <div className="font-bold truncate">{url}</div>
 
                   </div>
                   <button className="px-4 py-2 rounded-full text-white bg-[#0D1164] hover:bg-[#1a1e85]" onClick={copyUrl}>Copy</button>

@@ -158,14 +158,14 @@ export default function CreateGroup() {
                 <div className="font-bold text-2xl"> Share a invitation link </div>
                 <div className="">Invite anyone to view and join this group. Using this link, people can either join or request to join the group, depending on the group's privacy setting.</div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between flex-wrap w-full">
+                  <div className="flex items-center gap-2 w-full">
 
                     <div className="rounded-full w-6 h-6 bg-[#FAF9F6] flex items-center jutify-center"><FaLink size={24} color={"black"} /></div>
-                    <div className="font-bold">{url}</div>
+                    <div className="font-bold truncate w-full">{url}</div>
 
                   </div>
-                  <button className="px-4 py-2 rounded-full text-white bg-[#0D1164] hover:bg-[#1a1e85]" onClick={copyUrl}>Copy</button>
+                  <button className="px-4 mt-2 py-2 rounded-full text-white bg-[#0D1164] hover:bg-[#1a1e85]" onClick={copyUrl}>Copy</button>
 
 
 
@@ -286,7 +286,7 @@ export default function CreateGroup() {
                   if (isOwner) {
                     return (
                       <div onClick={() => router.push(`/create_group_form?groupId=${group.id}`)} className="flex items-center gap-2 cursor-pointer" key={index}>
-                        <img className="w-8 h-8 rounded-full object-cover" src={group.image} />
+                        {/* <img className="w-8 h-8 rounded-full object-cover" src={group.image} /> */}
 
                         {group?.image && group?.image?.trim() !== "" ? (<img className="w-8 h-8 rounded-full object-cover" src={group.image} />) : (<div className="bg-gray-200 text-gray-600 font-semibold flex items-center justify-center w-8 h-8 rounded-full ">{group?.name[0] ?? "U"}</div>)}
                         <div className="flex flex-col items-start justify-start">

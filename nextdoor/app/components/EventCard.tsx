@@ -20,6 +20,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { IoCloseOutline } from "react-icons/io5";
 
 
 
@@ -346,7 +347,7 @@ function convertTo24Time(timeStr: string) {
               <Menuitem
                 icon={<X size={20} />}
                 title="Hide"
-                subtitle="Remove post from your feed"
+                subtitle="Remove event from your feed"
                 onClick={() => {
                   setMenu(false)
                   handleHideEvent()
@@ -363,7 +364,7 @@ function convertTo24Time(timeStr: string) {
               <Menuitem
                 icon={<Pencil size={20} />}
                 title="Edit"
-                subtitle="Upadte the content of your post"
+                subtitle="Upadte the content of your event"
                 onClick={() => {
                   setMenu(false);
                   
@@ -374,7 +375,7 @@ function convertTo24Time(timeStr: string) {
               <Menuitem
                 icon={<Trash2 size={20} />}
                 title="Delete"
-                subtitle="Permanently remove post"
+                subtitle="Permanently remove event"
                 danger
 
                 onClick={() => {
@@ -399,10 +400,10 @@ function convertTo24Time(timeStr: string) {
               {/* Model */}
               <div className="relative z-10 w-[320px]  rounded-2xl bg-[#2F2F2F] p-4 shadow-xl ">
                 <h3 className="text-lg font-semibold text-white ">
-                  Delete Post?
+                  Delete Event?
                 </h3>
                 <p className="mt-1 text-sm text-neutral-400">
-                  Your post will be permanently removed.
+                  Your event will be permanently removed.
                 </p>
                 <div className="mt-4 flex justify-end gap-3">
 
@@ -434,7 +435,7 @@ function convertTo24Time(timeStr: string) {
               <div className="absolute inset-0  bg-black/40" onClick={() => setEditMenu(false)}>
               </div>
               {/* Model */}
-              <div className="relative z-10 rounded-2xl w-[800px] flex items-center justify-center">
+              <div className="relative z-10 rounded-2xl w-full lg:w-[800px] flex items-center justify-center">
                 <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative flex flex-col gap-2 h-[600px] overflow-y-auto">
 
                   <div className="flex items-center justify-between w-full">
@@ -463,12 +464,15 @@ function convertTo24Time(timeStr: string) {
                   <div className=" relative h-[400px] ">
 
                     <img src={eventCover ? eventCover :
-                      "https://i.pinimg.com/1200x/84/75/41/8475416f00fee293ac70c5e49145d53e.jpg"} className="object-cover  w-full h-full rounded-xl" />
+                      "https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg"} className="object-cover  w-full h-full rounded-xl" />
 
-                    <button onClick={() => evevntRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
+
+                      <button className="absolute top-2 right-2" onClick={()=>setEventCover("")}><IoCloseOutline size={24} color={"white"}/></button>
+
+                    {/* <button onClick={() => evevntRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
                       <IoImage size={24} />
                       Cover photo
-                    </button>
+                    </button> */}
 
                     <input
                       type="file"
@@ -482,7 +486,7 @@ function convertTo24Time(timeStr: string) {
 
                   <input className="w-full px-2 py-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]" value={eventName} onChange={(e) => setEventName(e.target.value)} placeholder="Event name"></input>
 
-                  <div className="flex justify-between items-center  w-full">
+                  <div className="flex justify-between items-center  w-full  flex-wrap">
                     <h3 className="font-semibold text-lg ">Start</h3>
 
                     {/* default */}
@@ -494,7 +498,7 @@ function convertTo24Time(timeStr: string) {
 
 
                     {/* mui library */}
-<div className="flex gap-2">
+<div className="flex gap-2 flex-wrap">
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
 
   <DatePicker
@@ -521,7 +525,7 @@ function convertTo24Time(timeStr: string) {
                   </div>
 
 
-                  <div className="flex justify-between items-center gap-4 w-full">
+                  <div className= "flex flex-wrap   justify-between items-center gap-4 w-full ">
                     <h3 className="font-semibold text-lg ">End</h3>
 
                     {/* default */}
@@ -534,7 +538,7 @@ function convertTo24Time(timeStr: string) {
 
                     {/* mui library */}
 
-<div className="flex gap-2">
+<div className="flex flex-wrap gap-2">
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
 
   <DatePicker
@@ -613,7 +617,7 @@ function convertTo24Time(timeStr: string) {
             :
             <button onClick={() => toggleDropdownEvent(event.id)} className=" flex items-center justify-center  gap-1 border-none w-full rounded-3xl bg-[#ABB7CC] px-4 py-2">Saved <FaChevronDown size={12} /></button>
           }
-          {eventsButtonDropdown === event.id && <div className="  w-[526px] flex flex-col gap-2 mt-4  p-4 items-start rounded-2xl bg-[#2F2F2F] shadow-xl z-50">
+          {eventsButtonDropdown === event.id && <div className=" w-full  md:w-[526px] flex flex-col gap-2 mt-4  p-4 items-start rounded-2xl bg-[#2F2F2F] shadow-xl z-50">
             <button className="border-none background-none text-white cursor-pointer" onClick={() => goingToEvent(event.id)}>
               Going
             </button>

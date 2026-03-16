@@ -21,7 +21,8 @@ export async function GET(req:Request){
 
         },
         include:{
-            user:true
+            user:true,
+            images:true
         },
         orderBy:{createdAt:'desc'}
     })

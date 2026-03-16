@@ -22,6 +22,7 @@ export async function GET(req:Request){
             post:{
 
     include: { user: true ,
+        photos:true,
       likes:{
       where:{
         userId:session?.user?.id

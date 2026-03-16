@@ -1,3 +1,5 @@
+
+
 import ListingCard from "@/app/components/ListingCard"
 
 export default async function Listing({ params }: { params: Promise<{ id: string }> }){

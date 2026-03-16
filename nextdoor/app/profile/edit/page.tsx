@@ -5,7 +5,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { IoImage } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation" 
-
+import { ImagePlus } from "lucide-react";
 
 export default function EditProfile() {
   const searchParams = useSearchParams()
@@ -117,8 +117,8 @@ export default function EditProfile() {
             <img src={user?.backgroundImage ? user.backgroundImage :
               "https://img.freepik.com/free-photo/abstract-geometric-background-shapes-texture_1194-301824.jpg?semt=ais_hybrid&w=740&q=80"} className="object-cover  w-full h-[200px] rounded-t-3xl" />
 
-            <button onClick={() => coverRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium w-fit">
-              <IoImage size={24} />
+            <button onClick={() => coverRef.current?.click()} className="absolute inset-x-0 top-1/2 mx-auto flex items-center gap-2  text-white px-4 py-2  text-sm font-medium w-fit">
+              <ImagePlus size={24} />
               Upload cover photo
             </button>
 
@@ -147,8 +147,9 @@ export default function EditProfile() {
                 }
               </div>
 
-              <button className="absolute left-20 top-6 bg-white p-2 rounded-full" onClick={()=>profileRef.current?.click()}>
-                <FaCloudUploadAlt size={16} />
+              <button className="absolute left-18 top-4 text-white p-2 " onClick={()=>profileRef.current?.click()}>
+                           <ImagePlus size={16} />
+
               </button>
 
   
@@ -194,7 +195,7 @@ export default function EditProfile() {
 
               <button
                 onClick={handleSave}
-                className="rounded-3xl max-w-3xs py-2 px-4 border-none font-semibold text-[#ABB7CC] bg-[#454647] my-2">Update neighborhood</button>
+                className="rounded-3xl md:w-fill lg:max-w-3xs py-2 px-4 border-none font-semibold text-[#ABB7CC] bg-[#454647] my-2">Update neighborhood</button>
             </div>
           </div>
 

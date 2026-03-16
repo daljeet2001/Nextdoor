@@ -196,7 +196,7 @@ model Group {
 model Post {
   id             String   @id @default(cuid())
   body           String  
-  photo          String? 
+  photos         PostImage[] 
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   likesCount     Int      @default(0) 
@@ -215,6 +215,13 @@ model Post {
   userId         String
 }
 
+
+model PostImage {
+  id String @id @default(cuid())
+  url String
+  postId String
+  post Post @relation(fields:[postId],references:[id], onDelete: Cascade)
+}
 model Listing {
   id String @id @default(cuid())
   name String
@@ -222,7 +229,7 @@ model Listing {
   category String
   description String
   price String
-  image String
+  images ListingImage[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   userId String
@@ -233,6 +240,13 @@ model Listing {
 
   user User @relation(fields:[userId],references:[id])
   neighborhood Neighborhood @relation(fields:[neighborhoodId],references:[id])
+}
+
+model ListingImage{
+  id String @id @default(cuid())
+  url String
+  listingId String
+  listing Listing @relation(fields:[listingId],references:[id])
 }
 
 model SavedListing {

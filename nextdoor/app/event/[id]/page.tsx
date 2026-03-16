@@ -1,3 +1,4 @@
+
 import EventCard from "@/app/components/EventCard"
 
 export default async function Event({ params }: { params: Promise<{ id: string }> }){

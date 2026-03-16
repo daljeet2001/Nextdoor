@@ -8,6 +8,10 @@ import Chat from "./Chat";
 import Comment from "./Comment";
 import Share from "./Share"
 import { usePathname } from "next/navigation";
+import { IoCloseOutline } from "react-icons/io5";
+import { GrPrevious } from "react-icons/gr";
+import { GrNext } from "react-icons/gr";
+
 
 export default function PostCard({ post, onClose }: { post: any; onClose?: (id: string) => void }) {
   const { data: session } = useSession();
@@ -25,7 +29,7 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
 
   const [editMenu, setEditMenu] = useState(false)
   const [EditBody, setEditBody] = useState(post.body)
-  const [EditImage, setEditImage] = useState(post.photo)
+  const [EditImages, setEditImages] = useState<any[]>(post?.photos?.map((p:any)=>p.url) || [])
   const [Uploading,setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const EditIRef = useRef<HTMLInputElement>(null)
@@ -37,6 +41,22 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
 
   const isOwner = session?.user?.id === post?.user?.id
   const isReported = post?.report?.length !==0
+
+
+  const [ currentImage, setCurrentImage ] = useState(0);
+
+
+  useEffect(()=>{
+setCurrentImage(0)
+  },[post])
+
+  const nextImage = ()=>{
+    setCurrentImage((prev)=>prev === post.photos.length-1 ? 0: prev+1)
+  }
+
+  const prevImage = ()=>{
+    setCurrentImage((prev)=>prev === 0? post.photos.length-1 : prev-1)
+  }
 
 
 // useEffect(()=>{
@@ -128,7 +148,7 @@ export default function PostCard({ post, onClose }: { post: any; onClose?: (id: 
   }
 
 
-  const getUrl = async(file:any)=>{
+  const getUrl = async(file:any, index:number)=>{
 try{
 setUploading(true)
   const formData = new FormData()
@@ -144,7 +164,14 @@ setUploading(true)
   if(!res.ok){
     throw new Error("Failed to upadte photo")
   }else{
-setEditImage(result.url)
+    console.log("result",result)
+    console.log("EditImages",EditImages)
+const aarr = EditImages.map((imgf,i)=>i === index ? ({...imgf, url : result.url}):(imgf))
+console.log("aarr",aarr)
+setEditImages(aarr);
+
+
+
 setUploading(false)
    
   }
@@ -155,6 +182,10 @@ setUploading(false)
 }
   }
 
+
+
+
+
   const handleEditPost = async()=>{
 
 try{
@@ -164,7 +195,7 @@ try{
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       caption:EditBody,
-      photo:EditImage
+      photos:EditImages
     })
   })
 
@@ -174,9 +205,10 @@ try{
 
   //optimistic update
   post.body = EditBody
-  post.photo = EditImage
+  post.photos = EditImages
 
 setEditMenu(false);
+setCurrentImage(0)
 
 }catch(e){
 
@@ -362,7 +394,7 @@ setEditMenu(false);
                     onClick={() => {
                       setMenu(false);
                       setEditBody(post.body);
-                      setEditImage(post.photo)
+                      setEditImages(post.photos)
                       setEditMenu(true)
                       
                     }}
@@ -410,12 +442,37 @@ setEditMenu(false);
 
 
         {/* Post Content */}
-        <div className="mt-3 text-gray-800 text-sm leading-relaxed">
-          {post.photo && (
-            <img src={post.photo} alt="post image" className="w-full h-[400px] mb-2 object-cover" />
-          )}
-          {post.body}
+        {
+          post?.photos?.length>0 &&       
+           <div className="relative w-full mt-2">
+
+            {
+              post?.photos?.length>1 &&    <button className="absolute left-3 top-1/2 -translate-y-1/2 text-white bg-black/40 w-8 h-8 rounded-full flex items-center justify-center" onClick={prevImage}><GrPrevious size={20}/></button>
+            }
+
+         
+  
+                  <img src={post?.photos[currentImage]?.url} alt="post image" className="w-full h-[400px] object-cover" />
+
+        {
+              post?.photos?.length>1 &&    <button className="absolute right-3 top-1/2 -translate-y-1/2 text-white bg-black/40 w-8 h-8 rounded-full flex items-center justify-center" onClick={nextImage}><GrNext size={20}/></button>
+            }
+
+
+            {post?.photos?.length>1&& <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
+            {post.photos.map((_:any,index:number)=>
+
+            <div key={index} className={`w-4 h-2 rounded-xl ${index === currentImage? "bg-white":"bg-white/40"} `}></div>
+            )}
+              </div>}
+        
+
+         
         </div>
+        }
+<div className="text-gray-800 text-sm leading-relaxed mt-2"></div>
+         {post.body}
+ 
 
         {/* Actions */}
         <div className="flex items-center justify-between mt-4">
@@ -479,7 +536,7 @@ setEditMenu(false);
               onClick={() => setChatOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
             >
-              ✖
+                      <IoCloseOutline size={24}/>
             </button>
 
             <Chat userId={post.user.id} userName={post.user.name ?? "User"} optimistic={false} />
@@ -527,45 +584,50 @@ setEditMenu(false);
 
       {
         editMenu &&  (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 z-50 flex items-center justify-center ">
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/60" onClick={()=>setEditMenu(false)}>
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={()=>setEditMenu(false)}>
             </div>
 
             {/* Modal */}
-            <div className="relative z-10 w-[400px] max-w-full rounded-2xl bg-[#1f1f1f] p-6  ">
-              <div className="flex items-center justify-between mb-4 text-white">
-                <button onClick={()=>setEditMenu(false)}>✖</button>
-                <button className={`px-4 py-2 rounded-full text-sm text-neutral-300 hover:bg-neutral-700 transition ${saving || Uploading? "cursor-not-allowed bg-neutral-700 text-neutral-400":"text-neutral-300 hover:bg-neutral-700"}`} onClick={handleEditPost} disabled={saving}> {Uploading? "Uploading":saving? "Saving":"Save"}</button>
+            <div className="relative z-10 w-[400px] max-w-full rounded-2xl bg-white shadow-xl text-black p-6  ">
+              <div className="flex items-center justify-between mb-4 ">
+                <button onClick={()=>setEditMenu(false)}>         <IoCloseOutline size={24} className="text-gray-500 hover:text-gray-700"/></button>
+                <button className={`px-4 py-2 rounded-full font-semibold text-white bg-[#0D1164] hover:bg-[#1a1e85]`} onClick={handleEditPost} disabled={saving}> {Uploading? "Uploading":saving? "Saving":"Save"}</button>
               </div>
 
 
 
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-4">
                 {/* Image preview */}
-                {EditImage && (
-                  <div className="relative w-40 shrink-0">
-                  <img src={EditImage} className="rounded-xl object-cove"/>
-                              <button className="absolute right-1 top-1  p-2 rounded-full" onClick={()=>EditIRef.current?.click()}>
-                <FaCloudUploadAlt size={24} color={"white"} />
+                {EditImages?.length>0 && (
+                  <div className="flex w-full flex-wrap gap-2">
+               {           EditImages?.map((editImage:any,index:number)=>(
+                          <div key={index} className="relative w-30 shrink-0">
+                  <img src={editImage.url} className="rounded-xl w-28 h-28 object-cover"/>
+                              <button onClick={
+                          ()=>
+                               setEditImages(EditImages.filter((imag,i)=>i!==index))
+                                } className="absolute right-2 top-0 rounded-full">
+                <IoCloseOutline size={24} color={"white"} />
+              
               </button>
 
   
-              <input
-                type="file"
-                onChange={(e) => getUrl(e.target.files?.[0])}
-                accept="/*image"
-                ref={EditIRef}
-                hidden
-              />
+        
                   </div>
+
+                  ))}
+                  </div>
+            
+            
                 )}
 
                 <textarea 
                 value={EditBody}
                 onChange={(e)=>setEditBody(e.target.value)}
                 placeholder="Write a caption"
-                className="flex-1 resize-none rounded-lg  p-3 text-sm text-white outline-none"
+                className="flex-1 resize-none rounded-lg  p-3 text-sm text-black focus:outline-none focus:ring-1 focus:ring-[#5E6B84] bg-[#FAF9F6]"
                 rows={6}
                 
                 />
@@ -578,14 +640,14 @@ setEditMenu(false);
 
 
       {shareOpen &&
-        <div className="fixed inset-0 bg-white/40  flex items-center justify-center z-50">
-          <div className="relative bg-white rounded-xl shadow-lg">
+        <div className="fixed inset-0 bg-white/40  flex items-center justify-center z-50 ">
+          <div className="relative bg-white rounded-xl shadow-lg  w-full lg:w-[500px] ">
             {/* Close button */}
             <button
               onClick={() => setShareOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
             >
-              ✖
+                  <IoCloseOutline size={24} color={"white"} />
             </button>
 
             <Share post={post} />

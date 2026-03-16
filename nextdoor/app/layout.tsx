@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className={nunito.className + " bg-gray-50 min-h-screen"}>
+      <body className={nunito.className + " bg-gray-50 max-h-screen"}>
         <SocketProvider>
           <Providers>
             <Header />

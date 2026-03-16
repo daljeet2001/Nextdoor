@@ -96,7 +96,7 @@ export default function Header() {
             </button>
 
             {showDropdown && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white shadow-lg rounded-lg p-2 z-50 max-h-64 overflow-y-auto">
+              <div className="absolute md:right-2  top-full mt-2 w-64 bg-white shadow-lg rounded-lg p-2 z-50 max-h-64 overflow-y-auto">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-semibold text-gray-700">Notifications</span>
                   <button
