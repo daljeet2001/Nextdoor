@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/lib/auth";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context:any) {
     const session = await getServerSession(authOptions)
 
     //   if(!session?.user?.id){
@@ -11,7 +11,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     //       error:"Unauthorized"
     //     },{status:401})
     //   }
-    const postId = params.id
+    const postId = context.params.id
     if (!postId) {
         return NextResponse.json({ message: "Post ID is required" }, { status: 400 })
     }
@@ -28,7 +28,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json(posts);
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context:any) {
 
 
     try {
@@ -42,7 +42,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
     const session = await getServerSession(authOptions)
 
-    const postId = params.id
+    const postId = context.params.id
 
     if (!postId) {
         return NextResponse.json({
@@ -104,9 +104,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
 }
 
-export async function PUT(req: Request, { params }: {
-    params: { id: string }
-}) {
+export async function PUT(req: Request, context:any) {
 
     try {
         const session = await getServerSession(authOptions);
@@ -119,7 +117,7 @@ export async function PUT(req: Request, { params }: {
         }
 
 
-        const postId = params.id;
+        const postId = context.params.id;
         const { caption, photos } = await req.json();
         console.log("photos in PUT",photos)
 
