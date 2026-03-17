@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 
 
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context:any) {
     try {
 
         const session = await getServerSession(authOptions);
@@ -16,7 +16,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         }
 
 
-        const groupId = params.id;
+        const groupId = context.params.id;
 
         if (!groupId) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 })
@@ -84,12 +84,12 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
 
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context:any) {
 
     try {
 
 
-        const groupId = params.id;
+        const groupId = context.params.id;
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
