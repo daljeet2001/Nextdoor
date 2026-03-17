@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma"
 
 
 
-export async function GET(req: Request, { params }: { params: { postId: string } }) {
+export async function GET(req: Request, context:any) {
 
-    const postId = params.postId;
+    const postId = context.postId;
 
     const comments = await prisma.comment.findMany({
         where: {
