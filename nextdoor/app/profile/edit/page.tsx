@@ -1,3 +1,7 @@
+
+
+export const dynamic = "force-dynamic"
+
 "use client"
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect, useRef } from "react"
@@ -6,7 +10,6 @@ import { IoImage } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation" 
 import { ImagePlus } from "lucide-react";
-
 export default function EditProfile() {
   const searchParams = useSearchParams()
   const userId = searchParams.get("userId")
