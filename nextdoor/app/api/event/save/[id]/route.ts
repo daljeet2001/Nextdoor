@@ -6,10 +6,10 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 
 
-export async function POST(req:Request,{params}:{params:{id:string}}){
+export async function POST(req:Request,context:any){
 
     try{
-            const  eventId =  params.id
+            const  eventId =  context.params.id
 
     if(!eventId){
         return NextResponse.json({

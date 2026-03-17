@@ -5,11 +5,11 @@ import { getServerSession } from 'next-auth';
 
 
 
-export async function POST(req:Request ,{params}:{params:Promise<{id:string}>}){
+export async function POST(req:Request ,context:any){
 
     try{
 
-         const {id:listingId} = await params;
+         const {id:listingId} = await context.params;
 
          console.log("id in unsave listing",listingId)
 

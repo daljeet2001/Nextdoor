@@ -6,9 +6,9 @@ import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 
-export async function POST(req:Request,{params}:{params:{id:string}}){
+export async function POST(req:Request,context:any){
     try{
-            const eventId = params.id;
+            const eventId = context.params.id;
             if(!eventId){
                 return NextResponse.json({
                     message:"Event ID is required"

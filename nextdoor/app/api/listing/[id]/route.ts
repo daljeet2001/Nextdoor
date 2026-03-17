@@ -40,7 +40,7 @@ export async function GET(req:Request,context:any){
     return NextResponse.json(listing)
 }
 
-export async function PUT(req:Request,{params}:{params:{id:string}}){
+export async function PUT(req:Request,context:any){
 
     try{
 
@@ -54,7 +54,7 @@ export async function PUT(req:Request,{params}:{params:{id:string}}){
         }
 
 
-        const listingId = params.id;
+        const listingId = context.params.id;
 
         const { name, description, price, images, location, category } = await  req.json()
         
@@ -126,7 +126,7 @@ export async function PUT(req:Request,{params}:{params:{id:string}}){
 
 }
 
-export async function DELETE(req:Request,{params}:{params:{id:string}}){
+export async function DELETE(req:Request,context:any){
 
 
     try{
@@ -137,7 +137,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
         }
 
 
-        const listingId = params.id;
+        const listingId = context.params.id;
         console.log("listing id in delete route",listingId);
 
 

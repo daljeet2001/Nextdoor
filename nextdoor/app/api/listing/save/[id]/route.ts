@@ -5,11 +5,11 @@ import { getServerSession } from 'next-auth';
 
 
 
-export async function POST(req:Request ,{params}:{params:{id:string}}){
+export async function POST(req:Request ,context:any){
 
     try{
 
-         const listingId = params.id;
+         const listingId = context.params.id;
 
     if(!listingId){
         return NextResponse.json({
