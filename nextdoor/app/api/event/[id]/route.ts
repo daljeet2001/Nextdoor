@@ -6,8 +6,8 @@ import { prisma } from "@/lib/prisma"
 import { getServerSession } from "next-auth"
 
 
-export async function GET(req:Request,{params}:{params:{id:string}}){
-    const eventId = params.id
+export async function GET(req:Request,context:any){
+    const eventId = context.params.id
 
     if(!eventId){
         return NextResponse.json({message:"Event ID is required"},{status:400})
@@ -62,12 +62,12 @@ export async function GET(req:Request,{params}:{params:{id:string}}){
    
 }
 
-export async function DELETE(req:Request,{params}:{params:{id:string}}){
+export async function DELETE(req:Request,context:any){
 
     try{
 
 
-        const eventId = params.id;
+        const eventId = context.params.id;
     const session = await getServerSession(authOptions);
 
     if(!session?.user?.id){
@@ -123,11 +123,11 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
 }
 
 
-export async function PUT(req:Request,{params}:{params:{id:string}}){
+export async function PUT(req:Request,context:any){
 
     try{
 
-         const eventId = params.id;
+         const eventId = context.params.id;
     const { eventName,eventCover,description,location,startDate,startTime,endDate,endTime} = await req.json() 
        //convert to date object
         const startDateTime = new Date(`${startDate}T${startTime}`);

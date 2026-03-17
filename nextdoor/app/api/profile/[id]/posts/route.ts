@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth"
 
 
-export async function GET(req: Request,{params}:{params:{id:string}}) {
+export async function GET(req: Request,context:any) {
 
   const session = await getServerSession(authOptions)
 
@@ -13,7 +13,7 @@ export async function GET(req: Request,{params}:{params:{id:string}}) {
       error:"Unauthorized"
     },{status:401})
   }
-const userId = params.id
+const userId = context.params.id
 
 
 

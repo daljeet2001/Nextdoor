@@ -38,16 +38,18 @@ export default function FindNeighborhood() {
 
             <div className="flex flex-col p-4 gap-2">
                 <div className="text-3xl font-bold text-black">Available PIN Codes</div>
-
-                <div className="flex  flex-wrap gap-4 mt-4 text-sm font-semibold">
-                    {neighborhoods.map((n: any, index) => (
+{neighborhoods?.length>0 ?   <div className="flex  flex-wrap gap-4 mt-4 text-sm font-semibold">
+                    {neighborhoods?.map((n: any, index) => (
 
          
-                            <div >{n.pincode}</div>
+                            <div key={index}>{n.pincode}</div>
                       
 
                     ))}
-                </div>
+                </div>:<div className="flex mt-4 text-sm font-semibold">
+                    No PIN codes available
+                    </div>}
+              
 
             </div>
 

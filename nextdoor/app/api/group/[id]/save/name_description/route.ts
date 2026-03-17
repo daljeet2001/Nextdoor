@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, context:any) {
 
     try {
 
@@ -17,7 +17,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
 
 
-        const groupId = params.id;
+        const groupId = context.params.id;
 
         if (!groupId) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 })

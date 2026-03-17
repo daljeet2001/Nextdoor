@@ -3,7 +3,7 @@ import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
 
-export async function GET(req: Request,{ params}: { params:{ id: string } }) {
+export async function GET(req: Request,context:any) {
 
     try {
 
@@ -15,7 +15,7 @@ export async function GET(req: Request,{ params}: { params:{ id: string } }) {
         }
 
         const user = await prisma.user.findUnique({
-            where:{id:params.id},
+            where:{id:context.params.id},
                  include:{
                     neighborhood:true
                 

@@ -4,9 +4,9 @@ import { NextResponse }from "next/server"
 import {prisma} from "@/lib/prisma"
 
 
-export async function POST(req:Request,{params}:{params:{id:string}}){
+export async function POST(req:Request,context:any){
 try{
-      const userId = params.id;
+      const userId = context.params.id;
     const body = await req.json()
 
     const {bio,name,city} = body

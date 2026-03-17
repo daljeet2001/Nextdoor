@@ -4,11 +4,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma"
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request,context:any) {
 
     try {
 
-        const groupId = params.id;
+        const groupId = context.params.id;
 
         if (!groupId) {
             return NextResponse.json({ message: "Group ID is required" }, { status: 400 })
