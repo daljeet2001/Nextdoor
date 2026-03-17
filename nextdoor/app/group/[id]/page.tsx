@@ -14,10 +14,10 @@ import { FaLink } from "react-icons/fa6";
 
 
 
-export default function Group({ params }: { params: { id: string } }) {
+export default function Group(context:any) {
 
   const { data: session, status } = useSession();
-  const groupId = params.id;
+  const groupId = context.params.id;
   const [isOwner, setIsOwner] = useState(false);
   const [isMember, setIsMember] = useState(false);
   const [invite, setInvite] = useState(false);
@@ -155,7 +155,7 @@ export default function Group({ params }: { params: { id: string } }) {
                       setPosts((s: any) => [p, ...s]);
                       setOpen4(false);
                     }}
-                    groupId={params.id}
+                    groupId={context.params.id}
 
                   />
                 </div>
