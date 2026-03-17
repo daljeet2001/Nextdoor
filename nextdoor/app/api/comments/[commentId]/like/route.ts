@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 
 
-export async function POST( req:Request,context:{params:{commentId:string}}){
+export async function POST( req:Request,context:any){
 
     try{
         const  CommentId  = context.params.commentId
