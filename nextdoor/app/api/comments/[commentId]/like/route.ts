@@ -4,10 +4,10 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 
 
-export async function POST( req:Request, {params:{commentId}}: {params:{commentId:string}}){
+export async function POST( req:Request, {params}: {params:{commentId:string}}){
 
     try{
-        const  CommentId  = commentId
+        const  CommentId  = params.commentId
         console.log("commentId in api",CommentId)
         const session = await getServerSession(authOptions)
         // console.log("session in comment like api",session)
