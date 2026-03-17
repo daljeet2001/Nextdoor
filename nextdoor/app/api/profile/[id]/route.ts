@@ -16,20 +16,17 @@ export async function GET(req: Request,{ params}: { params:{ id: string } }) {
 
         const user = await prisma.user.findUnique({
             where:{id:params.id},
-            select:{
-                id:true,
-                name:true,
-                image:true,
-                city:true,
-                bio:true,
-                backgroundImage:true,
-                neighborhoodId:true,
+                 include:{
+                    neighborhood:true
+                
             }
         })
 
         if(!user){
             return NextResponse.json({message:"user not found"},{status:404})
         }
+
+        console.log("user in the api",user)
 
         return NextResponse.json(
             {
@@ -38,7 +35,8 @@ export async function GET(req: Request,{ params}: { params:{ id: string } }) {
                 image:user.image,
                 backgroundImage:user.backgroundImage,
                 city:user.city,
-                bio:user.bio
+                bio:user.bio,
+                neighborhood:user?.neighborhood?.name
             }
         )
 

@@ -142,7 +142,7 @@ console.log(`groupId in createpostform location ${groupId ? "Group page" : "Home
             </div>
                   {/* Image Preview */}
             {preview && (
-              <div className="h-[200px] relative mt-2 flex items-center gap-2 flex-wrap overflow-auto">
+              <div className="max-h-[200px] h-auto relative mt-2 flex items-center gap-2 flex-wrap overflow-auto">
                 {
                   preview.map((p:any,index)=>(
                     <div  key={index} className="relative">

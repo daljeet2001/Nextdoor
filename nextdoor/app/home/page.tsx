@@ -250,19 +250,19 @@ export default function HomePage() {
   };
 const socket = useSocket()
 
-  // useEffect(()=>{
+  useEffect(()=>{
 
-  //   if(!session?.user?.id || !socket){
-  //     return
-  //   }
+    if(!session?.user?.id || !socket){
+      return
+    }
 
-  //   if(socket){
-  //     socket.send(JSON.stringify({type:"register",userId:session?.user?.id}))
-  //     console.log("register message sent")
-  //   }
+    if(socket){
+      socket.send(JSON.stringify({type:"register",userId:session?.user?.id}))
+      console.log("register message sent")
+    }
 
 
-  // },[socket,session])
+  },[socket,session])
 
   const joinMember = async (groupId: string, isOwner: boolean, isMember: boolean) => {
 
@@ -815,7 +815,7 @@ const socket = useSocket()
 
         {sellMenuOpen &&
           <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative flex flex-col gap-2 h-[600px] overflow-y-auto">
+            <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 relative flex flex-col gap-2 h-[600px]  overflow-auto">
 
               <div className="flex items-center justify-between w-full">
                 <button
@@ -841,7 +841,7 @@ const socket = useSocket()
               </div>
 
 
-                  
+       
 
                 <button onClick={() => listingRef.current?.click()} className="flex items-center gap-2 flex text-black text-sm font-medium  w-40 h-40  ">
         
@@ -868,7 +868,7 @@ const socket = useSocket()
                 />
 
                 {listingPreview && (
-                              <div className="min-h-[150px] relative mt-4 flex items-center gap-2 flex-wrap overflow-auto h-auto">
+                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-4 w-full">
                                 {
                                   listingPreview.map((p:any,index)=>(
                                     <div  key={index} className="relative">
@@ -1089,7 +1089,7 @@ const socket = useSocket()
 
       </div>}
       {view === "groups" &&
-        <div className="md:col-span-2 space-y-4">
+        <div className="md:col-span-2 space-y-4  h-[800px] ">
 
           <div className="flex items-center gap-20">
             <h2 className="font-semibold text-2xl">Groups</h2>
@@ -1100,7 +1100,7 @@ const socket = useSocket()
           <div className="flex flex-col gap-4">
             <h3 className="font-semibold text-xl">Groups near you</h3>
 
-            <div className="flex flex-wrap gap-2 h-[800px] overflow-y-auto ">
+            <div className="flex flex-wrap gap-2 overflow-y-auto ">
 
               {nearbyGroups.length !== 0 && nearbyGroups.map((group, index) => {
 

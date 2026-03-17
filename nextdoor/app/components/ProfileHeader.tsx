@@ -53,7 +53,13 @@ console.log("data after migration",data)
                 <div className="text-sm text-black ">{user?.bio}</div>
                 }
                 
-  <div className="text-sm text-black ">{user?.city}</div>
+
+  <div className="flex items-center  gap-1">
+ 
+
+      <div className="text-sm text-black">{user?.neighborhood}</div>
+
+  </div>
          
 
  
