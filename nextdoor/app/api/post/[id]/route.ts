@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 export async function GET(req: Request, context:any) {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 
     //   if(!session?.user?.id){
     //     return NextResponse.json({
@@ -40,7 +39,7 @@ export async function DELETE(req: Request, context:any) {
         }, { status: 500 })
     }
 
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 
     const postId = context.params.id
 
@@ -107,7 +106,7 @@ export async function DELETE(req: Request, context:any) {
 export async function PUT(req: Request, context:any) {
 
     try {
-        const session = await getServerSession(authOptions);
+        const session = await auth();
         if (!session?.user?.id) {
             return NextResponse.json({
                 message: "Unauthorized"

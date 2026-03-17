@@ -344,9 +344,9 @@ const socket = useSocket()
     if (neighborhoodId) {
       async function load() {
         try {
-          const [pRes, sRes, eRes, lRes, yRes, savedRes, groupsRes, mygroupRes] = await Promise.all([
+          const [pRes, eRes, lRes, yRes, savedRes, groupsRes, mygroupRes] = await Promise.all([
             fetch("/api/posts?neighborhoodId=" + neighborhoodId),
-            fetch("/api/services?neighborhoodId=" + neighborhoodId),
+           
             fetch("/api/event"),
             fetch("/api/listing"),
             fetch("/api/listing/you"),
@@ -354,9 +354,8 @@ const socket = useSocket()
             fetch("/api/group"),
             fetch("/api/group/me")
           ]);
-          const [pData, sData, eData, lData, yData, savedData, groupsData, mygroupData] = await Promise.all([pRes.json(), sRes.json(), eRes.json(), lRes.json(), yRes.json(), savedRes.json(), groupsRes.json(), mygroupRes.json()]);
+          const [pData, eData, lData, yData, savedData, groupsData, mygroupData] = await Promise.all([pRes.json(), eRes.json(), lRes.json(), yRes.json(), savedRes.json(), groupsRes.json(), mygroupRes.json()]);
           setPosts(pData);
-          setServices(sData);
           setEventsData(eData);
           setAllListings(lData);
           setYourListings(yData);

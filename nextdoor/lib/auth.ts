@@ -1,11 +1,12 @@
-import { type AuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcrypt";
 
-export const authOptions: AuthOptions = {
+export const {auth, handlers}= NextAuth (
+  {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -16,13 +17,16 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
 
+        const email = credentials.email as string;
+        const password = credentials.password as string
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
 
         if (!user || !user.password) return null;
 
-        const valid = await bcrypt.compare(credentials.password, user.password);
+        const valid = await bcrypt.compare(password, user.password);
         if (!valid) return null;
 
         return {
@@ -54,4 +58,4 @@ export const authOptions: AuthOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-};
+});

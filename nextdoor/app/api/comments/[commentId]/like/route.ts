@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+import {auth} from "@/lib/auth"
 
 
 export async function POST( req:Request,context:any){
@@ -9,7 +8,7 @@ export async function POST( req:Request,context:any){
     try{
         const  CommentId  = context.params.commentId
         console.log("commentId in api",CommentId)
-        const session = await getServerSession(authOptions)
+        const session = await auth()
         // console.log("session in comment like api",session)
         if(!session?.user.id){
             return NextResponse.json({message:"Unauthorized"},{

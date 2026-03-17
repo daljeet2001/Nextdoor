@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from "@/lib/auth";
+
+import { auth } from "@/lib/auth";
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   if(!session?.user?.id){
     return NextResponse.json({
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
     console.log("Error creating a post",e)
     return NextResponse.json({message:"Something went wrong"},{status:500})
   }
-  const session  = await getServerSession(authOptions );
+  const session  = await auth();
   if (!session?.user?.id){
     alert("please sign in")
     return new Response(null, { status: 401 });
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   // update status (e.g., close a post)
-  const session = await getServerSession(authOptions as any);
+  const session = await auth();
   if (!session) return new Response(null, { status: 401 });
 
   const body = await req.json();

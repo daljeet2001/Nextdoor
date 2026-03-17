@@ -1,13 +1,13 @@
 
 import { NextResponse } from "next/server";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
+
 
 
 export async function GET(req:Request){
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if(!session?.user?.neighborhoodId){
         return NextResponse.json({
             message:"Unauthorized"
@@ -44,7 +44,7 @@ export async function GET(req:Request){
 
 export async function POST(req:Request){
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if(!session?.user?.id || !session?.user?.neighborhoodId){
         return NextResponse.json({
             message:"Unauthorized"

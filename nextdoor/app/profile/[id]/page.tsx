@@ -4,12 +4,13 @@ import ProfileHeader from "../../components/ProfileHeader"
 import ProfilePosts from "../../components/ProfilePosts"
 import Dashboard from "../../components/Dashboard"
 import { useSession } from "next-auth/react"
-import { getServerSession } from "next-auth"
-import { authOptions} from "@/lib/auth"
+import  getServerSession  from "next-auth"
+import { auth} from "@/lib/auth"
 
 export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const session =  await getServerSession(authOptions)
+  const session = await auth()
+
 
   console.log("userId is ", id)
   console.log("session id",session?.user?.id)
