@@ -1,8 +1,8 @@
-
+"use client"
 
 export const dynamic = "force-dynamic"
 
-"use client"
+
 import { useSearchParams } from "next/navigation"
 import { useState, useEffect, useRef } from "react"
 import { FaCloudUploadAlt } from "react-icons/fa";
