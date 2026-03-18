@@ -6,7 +6,7 @@ import {auth} from "@/lib/auth"
 export async function POST( req:Request,context:any){
 
     try{
-        const  CommentId  = context.params.commentId
+        const { commentId: CommentId } = await context.params
         console.log("commentId in api",CommentId)
         const session = await auth()
         // console.log("session in comment like api",session)

@@ -8,7 +8,7 @@ import { auth } from "@/lib/auth";
 
 export async function POST(req:Request,context:any){
     try{
-            const eventId = context.params.id;
+            const { id:eventId }= context.params;
             if(!eventId){
                 return NextResponse.json({
                     message:"Event ID is required"

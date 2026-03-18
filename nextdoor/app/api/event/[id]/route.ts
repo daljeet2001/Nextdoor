@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma"
 
 
 export async function GET(req:Request,context:any){
-    const eventId = context.params.id
+    const { id:eventId }=  await context.params
 
     if(!eventId){
         return NextResponse.json({message:"Event ID is required"},{status:400})
@@ -67,7 +67,7 @@ export async function DELETE(req:Request,context:any){
     try{
 
 
-        const eventId = context.params.id;
+        const  { id:eventId } =  await context.params;
     const session = await auth()
 
     if(!session?.user?.id){
@@ -127,7 +127,7 @@ export async function PUT(req:Request,context:any){
 
     try{
 
-         const eventId = context.params.id;
+         const { id: eventId } =  await context.params;
     const { eventName,eventCover,description,location,startDate,startTime,endDate,endTime} = await req.json() 
        //convert to date object
         const startDateTime = new Date(`${startDate}T${startTime}`);

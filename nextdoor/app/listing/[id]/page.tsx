@@ -15,7 +15,7 @@ export default  function Listing() {
 
         async function Getlisting() {
 
-            const res = await fetch(`http://localhost:3000/api/listing/${id}`)
+            const res = await fetch(`/api/listing/${id}`)
 
             if (!res.ok) {
                 alert("Lisitng not found")

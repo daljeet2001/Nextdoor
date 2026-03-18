@@ -13,7 +13,7 @@ cloudinary.config({
 
  export async function POST(req:Request,context:any){
 
-    const userId = context.params.id
+    const { id:userId } = await context.params
     const formData = await req.formData();
     const file = formData.get("file") as File
 

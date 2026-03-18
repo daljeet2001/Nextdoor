@@ -8,7 +8,7 @@ export async function POST(req: Request,context:any) {
 
     try {
 
-        const groupId = context.params.id;
+        const { id: groupId } = await context.params;
 
         if (!groupId) {
             return NextResponse.json({ message: "Group ID is required" }, { status: 400 })

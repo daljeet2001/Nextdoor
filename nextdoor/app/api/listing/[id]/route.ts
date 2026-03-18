@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(req:Request,context:any){
 
-    const listingId = context.params.id;
+    const { id:listingId }= await context.params;
 
     if(!listingId){
         return NextResponse.json({
@@ -53,7 +53,7 @@ export async function PUT(req:Request,context:any){
         }
 
 
-        const listingId = context.params.id;
+        const{ id:listingId } =  await context.params;
 
         const { name, description, price, images, location, category } = await  req.json()
         
@@ -136,7 +136,7 @@ export async function DELETE(req:Request,context:any){
         }
 
 
-        const listingId = context.params.id;
+        const { id: listingId }= await  context.params;
         console.log("listing id in delete route",listingId);
 
 
@@ -168,7 +168,7 @@ export async function DELETE(req:Request,context:any){
         return NextResponse.json({success:true})
 
     }catch(e){
-        console.log(e);
+        console.log("Error /api/listing.${id}",e);
         console.log("Error deleting listing",e);
         return NextResponse.json({message:"Something went wrong"})
     }

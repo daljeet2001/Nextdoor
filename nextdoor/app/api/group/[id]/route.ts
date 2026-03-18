@@ -16,7 +16,11 @@ export async function GET(req: Request, context:any) {
         }
 
 
-        const groupId = context.params.id;
+        const { id:groupId } = await context.params;
+
+        console.log("id in .group/id",groupId)
+
+
 
         if (!groupId) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 })
@@ -89,7 +93,7 @@ export async function DELETE(req: Request, context:any) {
     try {
 
 
-        const groupId = context.params.id;
+        const { id:groupId } = await context.params;
         const session = await auth();
 
         if (!session?.user?.id) {

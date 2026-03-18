@@ -6,6 +6,8 @@ export async function GET(req: Request,context:any) {
 
     try {
 
+        const { id } = await context.params;
+
         const session = await auth()
         if (!session?.user?.id) {
             return NextResponse.json({
@@ -14,7 +16,7 @@ export async function GET(req: Request,context:any) {
         }
 
         const user = await prisma.user.findUnique({
-            where:{id:context.params.id},
+            where:{id},
                  include:{
                     neighborhood:true
                 

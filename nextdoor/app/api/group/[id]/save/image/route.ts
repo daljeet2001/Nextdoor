@@ -11,7 +11,7 @@ export async function POST(req:Request, context:any){
 
     try{
 
-        const groupId = context.params.id
+        const { id:groupId } =  await context.params
         const session = await auth();
         if(!session?.user?.id){
             return NextResponse.json({message:"Unauthorized"},{status:401})

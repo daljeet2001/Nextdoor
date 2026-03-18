@@ -6,8 +6,7 @@ import CreatePostForm from "../../components/CreatePostForm";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaLink } from "react-icons/fa6";
-
-
+import { useParams } from 'next/navigation';
 
 
 
@@ -17,11 +16,14 @@ import { FaLink } from "react-icons/fa6";
 export default function Group(context:any) {
 
   const { data: session, status } = useSession();
-  const groupId = context.params.id;
+
   const [isOwner, setIsOwner] = useState(false);
   const [isMember, setIsMember] = useState(false);
   const [invite, setInvite] = useState(false);
   const [url, setUrl] = useState("");
+  const params = useParams();
+
+  const groupId = params.id as string
 
   useEffect(() => {
 
@@ -155,7 +157,7 @@ export default function Group(context:any) {
                       setPosts((s: any) => [p, ...s]);
                       setOpen4(false);
                     }}
-                    groupId={context.params.id}
+                    groupId={groupId}
 
                   />
                 </div>

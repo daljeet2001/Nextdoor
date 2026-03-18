@@ -6,7 +6,7 @@ import {prisma} from "@/lib/prisma"
 
 export async function POST(req:Request,context:any){
 try{
-      const userId = context.params.id;
+      const { id:userId } = await context.params;
     const body = await req.json()
 
     const {bio,name,city} = body

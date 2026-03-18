@@ -9,7 +9,7 @@ export async function POST(req:Request ,context:any){
 
     try{
 
-         const listingId = context.params.id;
+         const { id:listingId } =  await context.params;
 
     if(!listingId){
         return NextResponse.json({

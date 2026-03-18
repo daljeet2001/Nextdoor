@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, { params }: any) {
-  const { userId } = params;
+export async function GET(req: Request, context: any) {
+  const { userId } = await context.params;
 
   const session = await auth()
 

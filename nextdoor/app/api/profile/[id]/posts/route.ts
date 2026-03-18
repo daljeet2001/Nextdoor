@@ -12,7 +12,7 @@ export async function GET(req: Request,context:any) {
       error:"Unauthorized"
     },{status:401})
   }
-const userId = context.params.id
+const { id:userId } = await context.params
 
 
 

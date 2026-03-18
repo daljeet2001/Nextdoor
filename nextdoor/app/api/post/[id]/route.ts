@@ -10,7 +10,7 @@ export async function GET(req: Request, context:any) {
     //       error:"Unauthorized"
     //     },{status:401})
     //   }
-    const postId = context.params.id
+    const { id:postId }=  await context.params
     if (!postId) {
         return NextResponse.json({ message: "Post ID is required" }, { status: 400 })
     }
@@ -41,7 +41,7 @@ export async function DELETE(req: Request, context:any) {
 
     const session = await auth()
 
-    const postId = context.params.id
+    const { id:postId } = await context.params
 
     if (!postId) {
         return NextResponse.json({
@@ -116,7 +116,7 @@ export async function PUT(req: Request, context:any) {
         }
 
 
-        const postId = context.params.id;
+        const { id:postId }= await context.params;
         const { caption, photos } = await req.json();
         console.log("photos in PUT",photos)
 

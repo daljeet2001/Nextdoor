@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function GET(req: Request, context:any) {
 
-    const postId = context.postId;
+    const { postId }= await context.params;
 
     const comments = await prisma.comment.findMany({
         where: {
