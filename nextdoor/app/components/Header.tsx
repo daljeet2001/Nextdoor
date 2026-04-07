@@ -63,18 +63,18 @@ export default function Header() {
     {/* Logo */}
     <Link
       href="/home"
-      className="flex items-center gap-2 text-[#0D1164] cursor-default flex-shrink-0"
+      className="flex items-center gap-2  cursor-default flex-shrink-0"
     >
       <img
         src="/link.png"
         alt="Logo"
         className="h-8 w-8 sm:h-10 sm:w-10"
-        // style={{
-        //   filter:
-        //     "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
-        // }}
+        style={{
+          filter:
+            "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
+        }}
       />
-      <h1 className="text-lg sm:text-2xl font-bold">Nextdoor</h1>
+      <h1 className="text-lg sm:text-2xl font-bold text-[#0D1164]">Nextdoor</h1>
     </Link>
 
     {/* Navigation (hide when on login/register) */}
