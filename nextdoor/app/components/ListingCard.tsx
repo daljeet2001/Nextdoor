@@ -735,8 +735,8 @@ setCurrentImage(0)
           </div>
           {
             seeMore ?
-              <div className="text-sm font-normal mt-2">{listing.description.slice(0, 100)}<button onClick={() => setSeeMore(false)} className="text-[#ABB7CC]  font-bold">see more</button></div> :
-              <div className="text-sm font-normal mt-2">{listing.description} </div>
+              <div className="text-sm font-normal  mt-2">{listing.description.slice(0, 100)}<button onClick={() => setSeeMore(false)} className="text-[#ABB7CC]  font-bold">see more</button></div> :
+              <div className="text-sm w-full  font-normal mt-2">{listing.description} </div>
           }
 
              <p className="text-sm justify-start flex items-start gap-1 text-[#ABB7CC]">{listing.location}</p>

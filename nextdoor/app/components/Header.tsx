@@ -69,10 +69,10 @@ export default function Header() {
         src="/link.png"
         alt="Logo"
         className="h-8 w-8 sm:h-10 sm:w-10"
-        style={{
-          filter:
-            "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
-        }}
+        // style={{
+        //   filter:
+        //     "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
+        // }}
       />
       <h1 className="text-lg sm:text-2xl font-bold">Nextdoor</h1>
     </Link>
