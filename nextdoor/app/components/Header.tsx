@@ -5,11 +5,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSocket } from "../socket.context";
 import { usePathname } from "next/navigation";
+import { BsFillHousesFill } from "react-icons/bs";
+import { RiHomeSmileFill } from "react-icons/ri";
+
 
 export default function Header() {
   const { data: session, status } = useSession();
   const socket = useSocket();
   const [notifications, setNotifications] = useState<string[]>([]);
+  const [smallScreen,setSmallScreen] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false);
   const pathname = usePathname();
 
@@ -22,6 +26,7 @@ export default function Header() {
 
     socket.onopen = () => {
       console.log("Socket connected");
+      setSmallScreen(window.innerWidth<768)
     };
 
     const handleMessage = (event: MessageEvent) => {
@@ -63,17 +68,20 @@ export default function Header() {
     {/* Logo */}
     <Link
       href="/home"
-      className="flex items-center gap-2  cursor-default flex-shrink-0"
+      className="flex items-center gap-1  cursor-default flex-shrink-0"
     >
-      <img
+      {/* <img
         src="/link.png"
         alt="Logo"
         className="h-8 w-8 sm:h-10 sm:w-10"
         style={{
           filter:
-            "invert(11%) sepia(35%) saturate(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
+            "invert(11%) sepia(35%) saturat
+            e(5882%) hue-rotate(234deg) brightness(95%) contrast(105%)",
         }}
-      />
+      /> */}
+
+     {smallScreen?  <RiHomeSmileFill size={24} color={"#0D1164"}/>: <RiHomeSmileFill size={26} color={"#0D1164"}/> }
       <h1 className="text-lg sm:text-2xl font-bold text-[#0D1164]">Nextdoor</h1>
     </Link>
 
